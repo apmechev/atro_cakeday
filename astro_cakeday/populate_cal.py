@@ -9,12 +9,14 @@ def populate_ical(person_name="Alex", birthday="1989-06-21", birthday_number=3):
 
     cal = Calendar()
 
-    for number in range(0,birthday_number+1):
+    for number in range(1,birthday_number+1):
         for name in planet_lengths:
             planet = PlanetaryBirthday(str(name), number)
             planet.add('dtstart', birthday_event + timedelta(planet_lengths[name]))
             planet.add('dtend', birthday_event + timedelta(planet_lengths[name]+1))
             
             cal.add_component(planet)
-    
-    print(cal)
+        
+    f = open('planet_birthdays.ics', 'wb')
+    f.write(cal.to_ical())
+    f.close()

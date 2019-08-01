@@ -13,14 +13,9 @@
 
 {% block content %}
   <form method="post">
-    <label for="name">Name</label>
-    <input name="name" id="name" required>
-
-    <p>
-    <label for="birthday">Birthday</label>
-     <form class="col-sm-6">
-       <input type="text" class="form-control dp" />
-     </form>
-    <input type="submit" value="Give me my birthdays">
+	{{ form.name.label }}<br>
+        {{ form.name(size=32) }} 
+	
+	<p>{{ form.submit() }} </p>
   </form>
 {% endblock %}

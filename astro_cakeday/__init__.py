@@ -10,7 +10,7 @@ from flask import url_for
 from flask_datepicker import datepicker
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField
 from wtforms import SubmitField
 from wtforms.fields import DateField
 from wtforms.validators import DataRequired
@@ -19,10 +19,12 @@ from astro_cakeday.populate_cal import populate_ical
 
 
 class MyForm(FlaskForm):
-    name =  StringField('Your Name')
-    birthyear = StringField('Year')
-    birthmonth = StringField('Month')
-    birthday = StringField('Day')
+    name = StringField('Your Name')
+    birthyear = IntegerField('Year', default=1999)
+    birthmonth = IntegerField('Month', default=1)
+    birthday = IntegerField('Day', default=1)
+    mercury_stagger = IntegerField('Skip Mercury Birthdays by', default=5)
+    venus_stagger = IntegerField('Skip Venus Birthays by', default=2)
     submit = SubmitField('Give me my birthday:)')
 
 def create_app(test_config=None):

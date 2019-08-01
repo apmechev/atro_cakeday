@@ -1,2 +1,2 @@
-# atro_cakeday
+# astro_cakeday
 Your birthday on other planets

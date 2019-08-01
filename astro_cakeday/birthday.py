@@ -15,4 +15,5 @@ class PlanetaryBirthday(Event):
 
         self.add('summary', '{}{} {} Birthday on {}'.format(
             person_name, suffix, p.ordinal(birthday_number), planet))
+        self.add('location', planet)
 

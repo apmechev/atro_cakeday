@@ -3,8 +3,8 @@ from astropy.time import Time
 from poliastro.twobody import Orbit
 from poliastro import bodies
 
-PLANET_DB = {'Mercury': 2,
-             'Venus': 1,
+PLANET_DB = {'Mercury': 5,
+             'Venus': 2,
              'Earth': 1,
              'Mars': 1,
              'Saturn': 1,

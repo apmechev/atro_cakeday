@@ -7,7 +7,8 @@ from icalendar import Calendar
 
 # TODO: I want birthdays from when I was 12 - 13, e.g.
 
-def populate_ical(person_name="Alex", birthday="1989-06-21", birthday_number=3):
+def populate_ical(person_name="Alex", birthday="1989-06-21",
+                  birthday_number=3, PLANET_DB=PLANET_DB):
     birthday_event = Time(birthday)
 
     cal = Calendar()

@@ -1,7 +1,7 @@
 
 
 
-planet_lenghts = {'Mercury':87.969, 
+planet_lengths = {'Mercury':87.969, 
                   'Venus':224.701, 
                   'Earth':365,
                   'Mars':686.980, 

@@ -22,4 +22,4 @@ def populate_ical(person_name="Alex", birthday="1989-06-21", birthday_number=3):
     f = open('planet_birthdays.ics', 'wb')
     f.write(cal.to_ical())
     f.close()
-    return 'planet_birthdays.ics'
+     

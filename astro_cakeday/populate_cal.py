@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from icalendar import Calendar, Event 
 
 
-def populate_ical(birthday="1989-06-21", birthday_number=3):
+def populate_ical(person_name="Alex", birthday="1989-06-21", birthday_number=3):
     birthday_event = datetime.strptime(birthday,"%Y-%m-%d")
 
     cal = Calendar()

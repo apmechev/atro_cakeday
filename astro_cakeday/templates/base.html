@@ -1,12 +1,23 @@
 <html>
-{% import "bootstrap/google.html" as google %}
-
 	<head>
-	{% block scripts %}	
-	{{google.uanalytics('UA-144984973-2')}}
-	{% endblock %}
         <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/birthday.css') }}">
-
+	<!-- Default Statcounter code for Cakes in space
+	http://cakes.space -->
+	<script type="text/javascript">
+	var sc_project=12055931; 
+	var sc_invisible=1; 
+	var sc_security="f33dabe0"; 
+	</script>
+	<script type="text/javascript"
+	src="https://www.statcounter.com/counter/counter.js"
+	async></script>
+	<noscript><div class="statcounter"><a title="Web Analytics
+	Made Easy - StatCounter" href="https://statcounter.com/"
+	target="_blank"><img class="statcounter"
+	src="https://c.statcounter.com/12055931/0/f33dabe0/1/"
+	alt="Web Analytics Made Easy -
+	StatCounter"></a></div></noscript>
+	<!-- End of Statcounter Code -->
     </head>
 
             <img src="{{url_for('static', filename='galaxy.png')}}">

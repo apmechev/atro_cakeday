@@ -1,8 +1,9 @@
 import astropy.units as u
 from astropy.time import Time
 from poliastro.twobody import Orbit
-from poliastro.bodies import Mercury, Venus, Earth, Mars, Saturn, Jupiter, Neptune, Uranus, Pluto
+from poliastro import bodies
 
+PLANETS_TO_USE = ['Mercury', 'Venus', 'Earth', 'Mars', 'Saturn', 'Jupiter', 'Neptune', 'Uranus']
 
 class Planets():
 
@@ -13,9 +14,14 @@ class Planets():
 
         self.orbits = {}
         self.periods = {}
-        for name, body in zip(['Mercury', 'Venus', 'Earth', 'Mars', 'Saturn', 'Jupiter', 'Neptune', 'Uranus'],
-                              [Mercury, Venus, Earth, Mars, Saturn, Jupiter, Neptune, Uranus]):
+        for planet in PLANETS_TO_USE:
+
+            try:
+                body = getattr(bodies, planet)
+            except AttributeError:
+                raise AttributeError('Currently do not have data for {}'.format(planet))
+
             orbit = Orbit.from_body_ephem(body, epoch)
-            self.orbits[name] = orbit
-            self.periods[name] = orbit.period.to(u.d)
+            self.orbits[planet] = orbit
+            self.periods[planet] = orbit.period.to(u.d)
 

@@ -27,6 +27,6 @@ def populate_ical(person_name="Alex", birthday="1989-06-21", birthday_number=3):
     f = open('astro_cakeday/uploads/{}.ics'.format(filename), 'wb')
     f.write(cal.to_ical())
     f.close()
-    result_file = "http://cakedays.space/uploads/{}.ics".format(filename)
+    result_file = "http://cakedays.space/calendars/{}.ics".format(filename)
     return result_file
      

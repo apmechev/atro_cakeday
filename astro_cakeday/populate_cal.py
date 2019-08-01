@@ -17,8 +17,8 @@ def populate_ical(person_name="Alex", birthday="1989-06-21", birthday_number=3):
     for number in range(1,birthday_number+1):
         for name in planets.planets:
             planet_bday = PlanetaryBirthday(str(name), number)
-            planet_bday.add('dtstart', (birthday_event + planets.periods[name]).datetime)
-            planet_bday.add('dtend', (birthday_event + planets.periods[name] + 1 * u.d).datetime)
+            planet_bday.add('dtstart', (birthday_event + number*planets.periods[name]).datetime)
+            planet_bday.add('dtend', (birthday_event + number*planets.periods[name] + 1 * u.d).datetime)
             
             cal.add_component(planet_bday)
     filename = base64.b64encode(

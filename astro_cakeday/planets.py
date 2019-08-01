@@ -3,10 +3,8 @@ from astropy.time import Time
 from poliastro.twobody import Orbit
 from poliastro import bodies
 
-PLANETS_TO_USE = ['Mercury', 'Venus', 'Earth', 'Mars', 'Saturn', 'Jupiter', 'Neptune', 'Uranus']
-
-PLANET_DB = {'Mercury': 15,
-             'Venus': 5,
+PLANET_DB = {'Mercury': 5,
+             'Venus': 2,
              'Earth': 1,
              'Mars': 1,
              'Saturn': 1,
@@ -25,9 +23,9 @@ class Planets():
 
         self.orbits = {}
         self.periods = {}
-        self.planets = PLANETS_TO_USE
+        self.planets = list(PLANET_DB.keys())
 
-        for planet in PLANETS_TO_USE:
+        for planet in self.planets:
 
             try:
                 body = getattr(bodies, planet)

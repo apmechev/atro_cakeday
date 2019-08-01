@@ -25,5 +25,5 @@ class DefaultAlarm(Alarm):
 
         self.add('action', 'display')
         self.add('trigger', timedelta(days=-1))
-        self.add('description', 'Reminder: Get Cake!')
+        self.add('description', 'Alert Get Cake!')
 

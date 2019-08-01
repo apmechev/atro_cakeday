@@ -5,8 +5,8 @@ from poliastro import bodies
 
 PLANETS_TO_USE = ['Mercury', 'Venus', 'Earth', 'Mars', 'Saturn', 'Jupiter', 'Neptune', 'Uranus']
 
-PLANET_DB = {'Mercury': 15,
-             'Venus': 5,
+PLANET_DB = {'Mercury': 2,
+             'Venus': 1,
              'Earth': 1,
              'Mars': 1,
              'Saturn': 1,

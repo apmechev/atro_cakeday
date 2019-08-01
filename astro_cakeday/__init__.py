@@ -16,7 +16,7 @@ from wtforms.fields import DateField
 from wtforms.validators import DataRequired
 
 from astro_cakeday.populate_cal import populate_ical
-
+from astro_cakeday.planets import PLANET_DB
 
 class MyForm(FlaskForm):
     name = StringField('Your Name')
@@ -58,7 +58,10 @@ def create_app(test_config=None):
             flash('user {}, birthday={}/{}/{}'.format(
             form.name.data, form.birthyear.data, form.birthmonth.data, form.birthday.data))
             birthdate = "{}-{}-{}".format(form.birthyear.data, form.birthmonth.data, form.birthday.data)
-            icalfile = populate_ical(person_name=form.name.data,  birthday=birthdate)
+            PLANET_DB['Mercury'] = int(form.mercury_stagger.data)
+            PLANET_DB['Venus'] = int(form.venus_stagger.data)
+            icalfile = populate_ical(person_name=form.name.data,  birthday=birthdate,
+                                     PLANET_DB=PLANET_DB)
 #            return send_from_directory('uploads', icalfile.split('uploads/')[-1]) 
             return render_template('result.html', filename=icalfile)
  

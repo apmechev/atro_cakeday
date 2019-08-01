@@ -1,37 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/birthday.css') }}">
-</head>
+{% extends "base.html" %}
+
 {% block header %}
-<h1>{% block title %}Give us your birthday (on Earth){% endblock %}</h1>
+  <h1>{% block title %}Give us your birthday (on Earth){% endblock %}</h1>
 {% endblock %}
-<body>
 
-    <p> Here's some general text to see if the CSS works </p>
+{% block scripts %}
+      {{ super() }}
+      {{ datepicker.loader() }} {# to load jQuery-ui #}
+      {{ datepicker.picker(id=".dp") }}
+{% endblock %}
 
-    {% extends 'bootstrap/base.html' %}
-
-
-    {% block scripts %}
-          {{ super() }}
-          {{ datepicker.loader() }} {# to load jQuery-ui #}
-          {{ datepicker.picker(id=".dp") }}
-    {% endblock %}
-
-    {% block content %}
-      <form method="post">
-        <label for="name">Name</label>
-        <input name="name" id="name" required>
-
-        <p>
-        <label for="birthday">Birthday</label>
-         <form class="col-sm-6">
-           <input type="text" class="form-control dp" />
-         </form>
-        <input type="submit" value="Give me my birthdays">
-      </form>
-    {% endblock %}
-
-</body>
-</html>
+{% block content %}
+  <form method="post">
+	{{ form.name.label }}<br>
+        {{ form.name(size=32) }} 
+	{{ form.birthyear.label }}	
+	{{ form.birthyear }}
+	{{ form.birthmonth.label }}	
+	{{ form.birthmonth }}	
+	{{ form.birthday.label }}	
+	{{ form.birthday }}	
+	
+	<p>{{ form.submit() }} </p>
+  </form>
+  {% endblock %}

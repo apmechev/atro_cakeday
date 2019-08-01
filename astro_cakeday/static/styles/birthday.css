@@ -7,9 +7,20 @@
 }
 
 body {
-  font-size: 10px;
-  background: url(background.png);
-  background-size: cover;
+  font-size: 15px;
+  background-color: black;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+img {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.4;
 }
 
 h1 {

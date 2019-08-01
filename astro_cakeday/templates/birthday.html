@@ -23,8 +23,13 @@
 	{{ form.mercury_stagger.label(class_='active') }}
 	{{ form.mercury_stagger(class_='validate') }}
 	{{ form.venus_stagger.label(class_='active') }}
-	{{ form.venus_stagger(class_='validate') }}
+	{{ form.venus_stagger(class_='validate') }}<br> <br>
 	
+	{{ form.cal_start.label(class_='active') }}
+	{{ form.cal_start(class_='validate') }}
+	{{ form.cal_end.label(class_='active') }}
+	{{ form.cal_end(class_='validate') }}<br><br>
+
 	<p>{{ form.submit(class_='submit') }} </p>
   </form>
   {% endblock %}

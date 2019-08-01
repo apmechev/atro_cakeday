@@ -1,5 +1,14 @@
 <html>
     <head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144984973-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-144984973-2');
+</script>
         <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/birthday.css') }}">
 
     </head>
@@ -12,17 +21,6 @@
         </div>
         <hr>
         {% block content %}{% endblock %}
-
-	        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-144984973-1"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'UA-144984973-1');
-        </script>
-
     </body>
 </html>
 

@@ -11,16 +11,5 @@
 {% endblock %}
 
 {% block content %}
-  <form method="post">
-	{{ form.name.label }}<br>
-	{{ form.name(size=32) }} <br>
-	{{ form.birthyear.label }}	
-	{{ form.birthyear }}
-	{{ form.birthmonth.label }}	
-	{{ form.birthmonth }}	
-	{{ form.birthday.label }}	
-	{{ form.birthday }}	
-	
-	<p>{{ form.submit() }} </p>
-  </form>
-  {% endblock %}
+{{ filename }}
+{% endblock %}

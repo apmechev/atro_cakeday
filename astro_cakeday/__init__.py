@@ -4,7 +4,9 @@ import pdb
 from flask import Flask
 from flask import request
 from flask import render_template 
+from flask import send_from_directory 
 from flask import flash
+from flask import url_for 
 from flask_datepicker import datepicker
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
@@ -54,8 +56,10 @@ def create_app(test_config=None):
             flash('user {}, birthday={}/{}/{}'.format(
             form.name.data, form.birthyear.data, form.birthmonth.data, form.birthday.data))
             birthdate = "{}-{}-{}".format(form.birthyear.data, form.birthmonth.data, form.birthday.data)
-            populate_ical(person_name=form.name.data,  birthday=birthdate)
-            return None 
+            icalfile = populate_ical(person_name=form.name.data,  birthday=birthdate)
+#            return send_from_directory('uploads', icalfile.split('uploads/')[-1]) 
+            return render_template('result.html', filename=icalfile)
+ 
 
         return render_template('birthday.html', form=form)
 

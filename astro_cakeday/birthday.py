@@ -1,4 +1,5 @@
-from icalendar import Calendar, Event
+from datetime import timedelta
+from icalendar import Calendar, Event, Alarm
 import inflect
 p = inflect.engine()
 
@@ -16,4 +17,13 @@ class PlanetaryBirthday(Event):
         self.add('summary', '{}{} {} Birthday on {}'.format(
             person_name, suffix, p.ordinal(birthday_number), planet))
         self.add('location', planet)
+
+class DefaultAlarm(Alarm):
+
+    def __init__(self):
+        super(DefaultAlarm, self).__init__()
+
+        self.add('action', 'display')
+        self.add('trigger', timedelta(days=-1))
+        self.add('description', 'Reminder: Get Cake!')
 

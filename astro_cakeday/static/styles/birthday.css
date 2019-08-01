@@ -7,6 +7,40 @@
 }
 
 body {
-  font-size: 20px;
+  font-size: 10px;
+  background: url(background.png);
+  background-size: cover;
+}
+
+h1 {
+    color: white;
+
+}
+
+.active {
+    color: white;
+}
+
+.validate {
+    border: 2px solid #456879;
+	border-radius: 10px;
+	height: 22px;
+	width: 70px;
+
+}
+
+.validate_name {
+    border: 2px solid #456879;
+	border-radius: 10px;
+	height: 22px;
+	width: 170px;
+
+}
+
+.submit {
+    border: 2px solid #456879;
+	border-radius: 10px;
+	height: 32px;
+	width: 180px;
 
 }

@@ -12,15 +12,15 @@
 
 {% block content %}
   <form method="post">
-	{{ form.name.label }}<br>
-	{{ form.name(size=32) }} <br>
-	{{ form.birthyear.label }}	
-	{{ form.birthyear }}
-	{{ form.birthmonth.label }}	
-	{{ form.birthmonth }}	
-	{{ form.birthday.label }}	
-	{{ form.birthday }}	
+	{{ form.name.label(class_='active') }}<br>
+	{{ form.name(class_='validate_name') }} <br>
+	{{ form.birthyear.label(class_='active') }}	
+	{{ form.birthyear(class_='validate') }}
+	{{ form.birthmonth.label(class_='active') }}	
+	{{ form.birthmonth(class_='validate') }}	
+	{{ form.birthday.label(class_='active') }}	
+	{{ form.birthday(class_='validate') }}	
 	
-	<p>{{ form.submit() }} </p>
+	<p>{{ form.submit(class_='submit') }} </p>
   </form>
   {% endblock %}

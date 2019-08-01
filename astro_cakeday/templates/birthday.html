@@ -1,0 +1,26 @@
+{% block header %}
+  <h1>{% block title %}Give us your birthday (on Earth){% endblock %}</h1>
+{% endblock %}
+
+{% extends 'bootstrap/base.html' %}
+
+
+{% block scripts %}
+      {{ super() }}
+      {{ datepicker.loader() }} {# to load jQuery-ui #}
+      {{ datepicker.picker(id=".dp") }}
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="name">Name</label>
+    <input name="name" id="name" required>
+
+    <p>
+    <label for="birthday">Birthday</label>
+     <form class="col-sm-6">
+       <input type="text" class="form-control dp" />
+     </form>
+    <input type="submit" value="Give me my birthdays">
+  </form>
+{% endblock %}

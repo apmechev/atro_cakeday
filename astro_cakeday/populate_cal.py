@@ -1,7 +1,7 @@
 import base64
 
 from astropy.time import Time
-from astro_cakeday.birthday import PlanetaryBirthday
+from astro_cakeday.birthday import PlanetaryBirthday, DefaultAlarm
 from astro_cakeday.planets import Planets, PLANET_DB
 from icalendar import Calendar
 
@@ -24,13 +24,16 @@ def populate_ical(person_name="Alex", birthday="1989-06-21",
     cal.add('NAME', '{}{} planetary cake days'.format(person_name, suffix))
 
     planets = Planets(birthday_event)
-    
+    default_alarm = DefaultAlarm()
+
     for number in range(1,birthday_number+1):
         for name in planets.planets:
             planet_bday = PlanetaryBirthday(str(name), number * PLANET_DB[name], person_name=person_name)
             new_birthday_date = planets.get_birthday(name, number)
             new_birthday_date.out_subfmt = 'date'
             planet_bday.add('dtstart', new_birthday_date.datetime.date())
+
+            planet_bday.add_component(default_alarm)
 
             cal.add_component(planet_bday)
     filename = base64.b64encode(

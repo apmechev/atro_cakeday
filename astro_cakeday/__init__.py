@@ -1,5 +1,5 @@
 import os
-import pdb
+import datetime
 
 from flask import Flask
 from flask import request
@@ -55,9 +55,16 @@ def create_app(test_config=None):
     def hello():
         form = MyForm()
         if request.method == 'POST':
+            day = form.birthday.data
+            month = form.birthmonth.data
+            year = form.birthyear.data
             flash('user {}, birthday={}/{}/{}'.format(
-            form.name.data, form.birthyear.data, form.birthmonth.data, form.birthday.data))
-            birthdate = "{}-{}-{}".format(form.birthyear.data, form.birthmonth.data, form.birthday.data)
+            form.name.data, year, month, day))
+            birthdate = "{}-{}-{}".format(year, month, day)
+            try:
+                datetime.datetime(year=year, month=month, day=day)
+            except Exception as e:
+                return "ERROR: {}".format(str(e))
             PLANET_DB['Mercury'] = int(form.mercury_stagger.data)
             PLANET_DB['Venus'] = int(form.venus_stagger.data)
             icalfile = populate_ical(person_name=form.name.data,  birthday=birthdate,

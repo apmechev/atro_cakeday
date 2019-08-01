@@ -14,6 +14,8 @@ class Planets():
 
         self.orbits = {}
         self.periods = {}
+        self.planets = PLANETS_TO_USE
+
         for planet in PLANETS_TO_USE:
 
             try:

@@ -23,8 +23,8 @@ class MyForm(FlaskForm):
     birthyear = IntegerField('Year', default=1999)
     birthmonth = IntegerField('Month', default=1)
     birthday = IntegerField('Day', default=1)
-    mercury_stagger = IntegerField('Skip Mercury Birthdays by', default=5)
-    venus_stagger = IntegerField('Skip Venus Birthays by', default=2)
+    mercury_stagger = IntegerField('Skip Mercury Birthdays by', default=2)
+    venus_stagger = IntegerField('Skip Venus Birthays by', default=1)
     submit = SubmitField('Give me my birthday:)')
 
 def create_app(test_config=None):

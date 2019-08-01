@@ -16,18 +16,11 @@ from wtforms.validators import DataRequired
 from astro_cakeday.populate_cal import populate_ical
 
 
-class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    birthdate = DateField(id='birthday')
-    remember_me = BooleanField('Remember Me')
-    submit = SubmitField('Sign In')
-
-
-
 class MyForm(FlaskForm):
     name =  StringField('Your Name')
-    birthdate = DateField(id='.dp')
+    birthyear = StringField('Year')
+    birthmonth = StringField('Month')
+    birthday = StringField('Day')
     submit = SubmitField('Give me my birthday:)')
 
 def create_app(test_config=None):
@@ -58,16 +51,12 @@ def create_app(test_config=None):
     def hello():
         form = MyForm()
         if request.method == 'POST':
-            flash('user {}, birthday={}'.format(
-            form.name.data, form.birthdate.data))
-#            populate_ical(person_name=form.name.data,  birthday=form.date.data)
-            return  render_template('test.html', form=form)
+            flash('user {}, birthday={}/{}/{}'.format(
+            form.name.data, form.birthyear.data, form.birthmonth.data, form.birthday.data))
+            birthdate = "{}-{}-{}".format(form.birthyear.data, form.birthmonth.data, form.birthday.data)
+            populate_ical(person_name=form.name.data,  birthday=birthdate)
+            return None 
 
         return render_template('birthday.html', form=form)
-
-    @app.route('/login')
-    def login():
-        form = LoginForm()
-        return render_template('login.html', title='Sign In', form=form)
 
     return app

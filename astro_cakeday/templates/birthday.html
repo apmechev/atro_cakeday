@@ -15,7 +15,12 @@
   <form method="post">
 	{{ form.name.label }}<br>
         {{ form.name(size=32) }} 
-	<input type="text" class="form-control dp" />
+	{{ form.birthyear.label }}	
+	{{ form.birthyear }}
+	{{ form.birthmonth.label }}	
+	{{ form.birthmonth }}	
+	{{ form.birthday.label }}	
+	{{ form.birthday }}	
 	
 	<p>{{ form.submit() }} </p>
   </form>

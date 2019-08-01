@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+
+
 {% block header %}
   <h1>{% block title %}Give us your birthday (on Earth){% endblock %}</h1>
 {% endblock %}
@@ -14,7 +17,7 @@
 {% block content %}
   <form method="post">
 	{{ form.name.label }}<br>
-        {{ form.name(size=32) }} 
+	{{ form.name(size=32) }} <br>
 	{{ form.birthyear.label }}	
 	{{ form.birthyear }}
 	{{ form.birthmonth.label }}	

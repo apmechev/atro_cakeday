@@ -55,7 +55,8 @@ def create_app(test_config=None):
             form.name.data, form.birthyear.data, form.birthmonth.data, form.birthday.data))
             birthdate = "{}-{}-{}".format(form.birthyear.data, form.birthmonth.data, form.birthday.data)
             populate_ical(person_name=form.name.data,  birthday=birthdate)
-            return None 
+            return render_template('birthday.html', form=form)
+ 
 
         return render_template('birthday.html', form=form)
 

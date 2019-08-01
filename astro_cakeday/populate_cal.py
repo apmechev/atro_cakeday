@@ -10,7 +10,7 @@ def populate_ical(person_name="Alex", birthday="1989-06-21", birthday_number=3):
 
     cal = Calendar()
     planets = Planets(birthday_event)
-
+    
     for number in range(1,birthday_number+1):
         for name in planets.planets:
             planet_bday = PlanetaryBirthday(str(name), number)

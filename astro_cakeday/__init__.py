@@ -33,7 +33,7 @@ class MyForm(FlaskForm):
 
     cal_start = IntegerField('Start Year', default=1999)
     cal_end = IntegerField('End Year', default=2100)
-    submit = SubmitField('Give me my birthday:)')
+    submit = SubmitField('Submit!')
 
 class DateForm(FlaskForm):
     date = DateField(id='datepick')

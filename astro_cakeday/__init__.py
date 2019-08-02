@@ -67,11 +67,16 @@ def create_app(test_config=None):
     def hello():
         if request.user_agent:
             user_agent = request.user_agent.string
-            platform = request.user_agent.platform
-            browser = request.user_agent.browser
-            language = request.user_agent.language
-        app.logger.info("visit from ip:{}, pltf:{}, brws:{}, lng:{}, time:{}".format(request.remote_addr,
-                    platform, browser, language, time.time()))
+            if request.user_agent.platform:
+                platform = request.user_agent.platform
+            else:
+                platform = ""
+            if request.user_agent.browser:
+                browser = request.user_agent.browser
+            else:
+                browser=""
+        app.logger.info("visit from ip:{}, pltf:{}, brws:{}, time:{}".format(request.remote_addr,
+                    platform, browser, time.time()))
         app.logger.info("full_user_agent: {}".format(user_agent))
         app.logger.info("Referrer: {}".format(request.referrer))
         form = MyForm()

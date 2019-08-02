@@ -27,8 +27,7 @@ img {
 
 img.cake {
     position: absolute;
-    top: -15%;
-    left: 90%; 
+    top: -50%;
     transform: translate(-50%, -50%);
     width: 30%;
     opacity: 0.8;
@@ -49,7 +48,8 @@ div.border {
     border-style: solid;
     border-width: 3px;
     border-radius: 10px;
-    background-color: #b0b0b0;
+    background-color: #b0b0b099;
+    border-color: #fff6
 }
 
 .active {

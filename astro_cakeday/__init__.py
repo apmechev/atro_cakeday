@@ -26,12 +26,12 @@ class MyForm(FlaskForm):
     birthyear = IntegerField('Year', default=1999)
     birthmonth = IntegerField('Month', default=1)
     birthday = IntegerField('Day', default=1)
-    mercury_stagger = IntegerField('Skip Mercury Birthdays by', default=2)
-    venus_stagger = IntegerField('Skip Venus Birthdays by', default=1)
+    mercury_stagger = IntegerField('Skip Mercury Birthdays by', default=5)
+    venus_stagger = IntegerField('Skip Venus Birthdays by', default=2)
 
 #    birthdate = DateField("Choose a date", id='.dp')
 
-    cal_start = IntegerField('Start Year', default=1999)
+    cal_start = IntegerField('Start Year', default=2018)
     cal_end = IntegerField('End Year', default=2100)
     submit = SubmitField('Submit!')
 

@@ -3,6 +3,7 @@
   padding: 5;
   border: none;
   font-family: Arial, sans-serif;
+  font-size: 2vw;
 
 }
 
@@ -43,6 +44,7 @@ h1 {
 
 h4 { 
     color: white;
+    font-size: 2vw;
 }
 
 div.border {
@@ -54,28 +56,30 @@ div.border {
 
 .active {
     color: white;
+    font-size: 2vw;
 }
 
 .validate {
     border: 2px solid #456879;
 	border-radius: 10px;
-	height: 22px;
-	width: 70px;
+	height: 3vw;
+	width: 7vw;
 
 }
 
 .validate_name {
     border: 2px solid #456879;
 	border-radius: 10px;
-	height: 22px;
-	width: 170px;
+	height: 3vw;
+	width: 12vw;
 
 }
 
 .submit {
     border: 2px solid #456879;
 	border-radius: 10px;
-	height: 32px;
-	width: 100px;
+	height: 4vw;
+	width: 12vw;
+    font-size: 2vw;
 
 }

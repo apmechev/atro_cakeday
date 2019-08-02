@@ -36,16 +36,25 @@ def populate_ical(person_name="Alex", birthday="1989-06-21",
     planets = Planets(birthday_event)
     default_alarm = DefaultAlarm()
 
-    for number in range(1,birthday_number+1):
-        for name in planets.planets:
+    for name in planets.planets:
+        start_number = (cal_start - birthday_event) / planets.periods[name] / PLANET_DB[name]
+        number = int(start_number)
+        new_birthday_date = cal_start
+
+        while new_birthday_date <= cal_end:
             planet_bday = PlanetaryBirthday(str(name), number * PLANET_DB[name], person_name=person_name)
             new_birthday_date = planets.get_birthday(name, number)
+
+            if new_birthday_date > cal_end:
+                break
+
             new_birthday_date.out_subfmt = 'date'
             planet_bday.add('dtstart', new_birthday_date.datetime.date())
 
             planet_bday.add_component(default_alarm)
-
             cal.add_component(planet_bday)
+            number += 1
+
     filename = base64.b64encode(
         "{}-{}-{}".format(person_name, birthday, birthday_number).encode('utf-8')
         ).decode('ascii')[:-1]

@@ -3,7 +3,6 @@
   padding: 5;
   border: none;
   font-family: Arial, sans-serif;
-  font-size: 2vw;
 
 }
 
@@ -38,13 +37,12 @@ img.cake {
 
 h1 {
     color: white;
-    font-size: 5vw;
+    font-size: 3vw;
 
 }
 
 h4 { 
     color: white;
-    font-size: 2vw;
 }
 
 div.border {
@@ -56,30 +54,28 @@ div.border {
 
 .active {
     color: white;
-    font-size: 2vw;
 }
 
 .validate {
     border: 2px solid #456879;
 	border-radius: 10px;
-	height: 3vw;
-	width: 7vw;
+	height: 22px;
+	width: 70px;
 
 }
 
 .validate_name {
     border: 2px solid #456879;
 	border-radius: 10px;
-	height: 3vw;
-	width: 25vw;
+	height: 22px;
+	width: 170px;
 
 }
 
 .submit {
     border: 2px solid #456879;
 	border-radius: 10px;
-	height: 4vw;
-	width: 12vw;
-    font-size: 2vw;
+	height: 32px;
+	width: 100px;
 
 }

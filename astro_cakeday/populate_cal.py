@@ -2,7 +2,6 @@ import base64
 
 from astropy.time import Time
 from astro_cakeday.birthday import PlanetaryBirthday
-from astro_cakeday.planets import Planets, PLANET_DB
 from icalendar import Calendar
 from datetime import datetime
 
@@ -11,8 +10,7 @@ from datetime import datetime
 HARDSTOP = Time('2300-01-01')
 SAMLINK = "<a href=https://samreay.github.io/SpaceBirthdays/?date={}-{}-{}>Visualize it!</a>"
 
-def populate_ical(person_name="Alex", birthday="1989-06-21",
-                  PLANET_DB=PLANET_DB, cal_start=None, cal_end='2100-01-01'):
+def populate_ical(planets, person_name="Alex", birthday="1989-06-21", cal_start=None, cal_end='2100-01-01'):
 
     birthday_time = Time(birthday)
 
@@ -30,18 +28,18 @@ def populate_ical(person_name="Alex", birthday="1989-06-21",
     cal = Calendar()
     set_cal_name(cal, person_name)
 
-    planets = Planets(birthday_time)
+    # We do this now because it will be the same inside every loop below
     sam_link = SAMLINK.format(birthday_time.datetime.year,
                               birthday_time.datetime.month,
                               birthday_time.datetime.day)
 
     for name in planets.planets:
-        start_number = (cal_start - birthday_time) / planets.periods[name] / PLANET_DB[name]
+        start_number = (cal_start - birthday_time) / planets.periods[name] / planets.staggers[name]
         number = int(start_number)
         new_birthday_date = cal_start
 
         while new_birthday_date <= cal_end:
-            planet_bday = PlanetaryBirthday(str(name), number * PLANET_DB[name], person_name=person_name)
+            planet_bday = PlanetaryBirthday(str(name), number * planets.staggers[name], person_name=person_name)
             new_birthday_date = planets.get_birthday(name, number)
 
             if new_birthday_date > cal_end:

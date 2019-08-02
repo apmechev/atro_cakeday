@@ -14,7 +14,7 @@ from wtforms import StringField, IntegerField
 from wtforms import SubmitField
 
 from astro_cakeday.populate_cal import populate_ical
-from astro_cakeday.planets import PLANET_DB
+from astro_cakeday.planets import Planets
 
 
 ##TODO: give next few birthdays
@@ -86,12 +86,12 @@ def create_app(test_config=None):
             except Exception as e:
                 return "ERROR: {}".format(str(e))
 
-            PLANET_DB['Mercury'] = int(form.mercury_stagger.data)
-            PLANET_DB['Venus'] = int(form.venus_stagger.data)
+            custom_staggers = {'Mercury': int(form.mercury_stagger.data),
+                               'Venus': int(form.venus_stagger.data)}
+            planets = Planets(birthdate, staggers=custom_staggers)
 
-            icalfile = populate_ical(person_name=form.name.data,  birthday=birthdate,
-                                     PLANET_DB=PLANET_DB, cal_start=cal_start,
-                                     cal_end=cal_end)
+            icalfile = populate_ical(planets, person_name=form.name.data,  birthday=birthdate,
+                                     cal_start=cal_start, cal_end=cal_end)
             return render_template('result.html', filename=icalfile)
  
 

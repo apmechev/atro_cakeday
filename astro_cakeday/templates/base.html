@@ -1,11 +1,9 @@
 <html>
-{% import "bootstrap/google.html" as google %}
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 {% block header %}
 	{% block scripts %}	
-	{{google.uanalytics('UA-144984973-2')}}
 	{% endblock %}
         <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/birthday.css') }}">
 

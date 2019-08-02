@@ -1,6 +1,7 @@
 import os
 import datetime
 import logging
+import time
 
 from flask import Flask
 from flask import request
@@ -76,8 +77,8 @@ def create_app(test_config=None):
             platform = request.user_agent.platform
             browser = request.user_agent.browser
             language = request.user_agent.language
-        app.logger.info("visit from ip:{}, pltf:{}, brws:{}, lng:{}".format(request.remote_addr,
-                    platform, browser, language))
+        app.logger.info("visit from ip:{}, pltf:{}, brws:{}, lng:{}, time:{}".format(request.remote_addr,
+                    platform, browser, language, time.time()))
         app.logger.info("full_user_agent: {}".format(user_agent))
         app.logger.info("Referrer: {}".format(request.referrer))
         form = MyForm()

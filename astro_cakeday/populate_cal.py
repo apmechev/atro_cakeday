@@ -4,6 +4,7 @@ from astropy.time import Time
 from astro_cakeday.birthday import PlanetaryBirthday, DefaultAlarm
 from astro_cakeday.planets import Planets, PLANET_DB
 from icalendar import Calendar
+from datetime import datetime
 
 # TODO: I want birthdays from when I was 12 - 13, e.g.
 
@@ -13,8 +14,12 @@ def populate_ical(person_name="Alex", birthday="1989-06-21",
                   birthday_number=3, PLANET_DB=PLANET_DB, cal_start=None, cal_end='2100-01-01'):
     birthday_event = Time(birthday)
 
+    cal_start_dt = datetime.strptime(cal_start,"%Y-%m-%d")
+    bday_dt = datetime.strptime(birthday,"%Y-%m-%d")
     if cal_start is None:
         cal_start = birthday
+    elif cal_start_dt.year < bday_dt.year :
+        cal_start = birthday 
     cal_start = Time(cal_start)
 
     cal_end = Time(cal_end)
@@ -34,7 +39,6 @@ def populate_ical(person_name="Alex", birthday="1989-06-21",
     cal.add('NAME', '{}{} planetary cake days'.format(person_name, suffix))
 
     planets = Planets(birthday_event)
-    default_alarm = DefaultAlarm()
 
     for name in planets.planets:
         start_number = (cal_start - birthday_event) / planets.periods[name] / PLANET_DB[name]
@@ -51,7 +55,6 @@ def populate_ical(person_name="Alex", birthday="1989-06-21",
             new_birthday_date.out_subfmt = 'date'
             planet_bday.add('dtstart', new_birthday_date.datetime.date())
 
-            planet_bday.add_component(default_alarm)
             cal.add_component(planet_bday)
             number += 1
 

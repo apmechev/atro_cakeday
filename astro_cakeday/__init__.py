@@ -35,8 +35,6 @@ class MyForm(FlaskForm):
     cal_end = IntegerField('End Year', default=2100)
     submit = SubmitField('Give me my birthday:)')
 
-class DateForm(FlaskForm):
-    date = DateField(id='datepick')
 
 def create_app(test_config=None):
     # create and configure the app
@@ -102,10 +100,5 @@ def create_app(test_config=None):
  
 
         return render_template('birthday.html', form=form)
-
-    @app.route('/date',  methods=['GET', 'POST'])
-    def date():
-        form = DateForm()
-        return render_template('test_date.html', form=form)
 
     return app

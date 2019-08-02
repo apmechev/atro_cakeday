@@ -1,5 +1,6 @@
 import os
 import datetime
+import logging
 
 from flask import Flask
 from flask import request
@@ -18,6 +19,8 @@ from wtforms.validators import DataRequired
 
 from astro_cakeday.populate_cal import populate_ical
 from astro_cakeday.planets import PLANET_DB
+from logging.handlers import RotatingFileHandler
+
 
 ##TODO: give next few birthdays
 
@@ -39,6 +42,8 @@ class MyForm(FlaskForm):
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    logging.basicConfig(filename='cakedays.space.log', level=logging.DEBUG)
+
     app.config.from_mapping(
         SECRET_KEY='sdafsadfsa',
     )

@@ -83,10 +83,8 @@ div.border {
 
 .footer {
   position: fixed;
-  left: 0;
   bottom: 0;
-  width: 100%;
-  background-color: #aeafb0;
+  width: 85%;
   color: white;
   text-align: center;
 }

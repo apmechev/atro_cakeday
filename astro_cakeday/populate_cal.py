@@ -7,9 +7,19 @@ from icalendar import Calendar
 
 # TODO: I want birthdays from when I was 12 - 13, e.g.
 
+HARDSTOP = Time('2300-01-01')
+
 def populate_ical(person_name="Alex", birthday="1989-06-21",
-                  birthday_number=3, PLANET_DB=PLANET_DB):
+                  birthday_number=3, PLANET_DB=PLANET_DB, cal_start=None, cal_end='2100-01-01'):
     birthday_event = Time(birthday)
+
+    if cal_start is None:
+        cal_start = birthday
+    cal_start = Time(cal_start)
+
+    cal_end = Time(cal_end)
+    if cal_end > HARDSTOP:
+        cal_end = HARDSTOP
 
     cal = Calendar()
 

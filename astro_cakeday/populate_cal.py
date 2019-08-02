@@ -1,7 +1,7 @@
 import base64
 
 from astropy.time import Time
-from astro_cakeday.birthday import PlanetaryBirthday, DefaultAlarm
+from astro_cakeday.birthday import PlanetaryBirthday
 from astro_cakeday.planets import Planets, PLANET_DB
 from icalendar import Calendar
 from datetime import datetime
@@ -12,7 +12,7 @@ HARDSTOP = Time('2300-01-01')
 SAMLINK = "<a href=https://samreay.github.io/SpaceBirthdays/?date={}-{}-{}>Visualize it!</a>"
 
 def populate_ical(person_name="Alex", birthday="1989-06-21",
-                  birthday_number=3, PLANET_DB=PLANET_DB, cal_start=None, cal_end='2100-01-01'):
+                  PLANET_DB=PLANET_DB, cal_start=None, cal_end='2100-01-01'):
     birthday_time = Time(birthday)
 
     cal_start_dt = datetime.strptime(cal_start,"%Y-%m-%d")

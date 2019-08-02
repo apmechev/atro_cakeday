@@ -18,8 +18,8 @@ def populate_ical(person_name="Alex", birthday="1989-06-21",
     bday_dt = datetime.strptime(birthday,"%Y-%m-%d")
     if cal_start is None:
         cal_start = birthday
-    elif cal_start_dt.year < bday_dt.year - 2:
-        cal_start = "{}-{}-{}".format(bday_dt.year - 2, bday_dt.month, bday_dt.day)
+    elif cal_start_dt.year < bday_dt.year :
+        cal_start = birthday 
     cal_start = Time(cal_start)
 
     cal_end = Time(cal_end)

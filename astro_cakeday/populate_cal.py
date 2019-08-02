@@ -9,7 +9,7 @@ from datetime import datetime
 # TODO: I want birthdays from when I was 12 - 13, e.g.
 
 HARDSTOP = Time('2300-01-01')
-SAMLINK = "<a href=https://samreay.github.io/SpaceBirthdays/?date={}-{}-{}>Link to app</a>"
+SAMLINK = "<a href=https://samreay.github.io/SpaceBirthdays/?date={}-{}-{}>Visualize it!</a>"
 
 def populate_ical(person_name="Alex", birthday="1989-06-21",
                   birthday_number=3, PLANET_DB=PLANET_DB, cal_start=None, cal_end='2100-01-01'):

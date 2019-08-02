@@ -60,6 +60,9 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    def count_visitors(logfile='/home/cakedays/astro_cakeday/cakedays.space.log'):
+        return open(logfile, 'r').read().count('pltf')
+
     @app.route('/',  methods=['GET', 'POST'])
     def hello():
         if request.user_agent:
@@ -100,7 +103,7 @@ def create_app(test_config=None):
 
             icalfile = populate_ical(planets, person_name=form.name.data,  birthday=birthdate,
                                      cal_start=cal_start, cal_end=cal_end)
-            return render_template('result.html', filename=icalfile)
+            return render_template('result.html', filename=icalfile, count_visitors=count_visitors)
  
 
         return render_template('birthday.html', form=form)

@@ -8,10 +8,11 @@ from icalendar import Calendar
 # TODO: I want birthdays from when I was 12 - 13, e.g.
 
 HARDSTOP = Time('2300-01-01')
+SAMLINK = "<a href=https://samreay.github.io/SpaceBirthdays/?date={}-{}-{}>Link to app</a>"
 
 def populate_ical(person_name="Alex", birthday="1989-06-21",
                   birthday_number=3, PLANET_DB=PLANET_DB, cal_start=None, cal_end='2100-01-01'):
-    birthday_event = Time(birthday)
+    birthday_time = Time(birthday)
 
     if cal_start is None:
         cal_start = birthday
@@ -33,10 +34,13 @@ def populate_ical(person_name="Alex", birthday="1989-06-21",
     cal.add('X-WR-CALNAME', '{}{} planetary cake days'.format(person_name, suffix))
     cal.add('NAME', '{}{} planetary cake days'.format(person_name, suffix))
 
-    planets = Planets(birthday_event)
+    planets = Planets(birthday_time)
+    sam_link = SAMLINK.format(birthday_time.datetime.year,
+                              birthday_time.datetime.month,
+                              birthday_time.datetime.day)
 
     for name in planets.planets:
-        start_number = (cal_start - birthday_event) / planets.periods[name] / PLANET_DB[name]
+        start_number = (cal_start - birthday_time) / planets.periods[name] / PLANET_DB[name]
         number = int(start_number)
         new_birthday_date = cal_start
 
@@ -49,6 +53,7 @@ def populate_ical(person_name="Alex", birthday="1989-06-21",
 
             new_birthday_date.out_subfmt = 'date'
             planet_bday.add('dtstart', new_birthday_date.datetime.date())
+            add_link_to_sam_magic(planet_bday, sam_link)
 
             cal.add_component(planet_bday)
             number += 1
@@ -61,4 +66,7 @@ def populate_ical(person_name="Alex", birthday="1989-06-21",
     f.close()
     result_file = "http://cakedays.space/calendars/{}.ics".format(filename)
     return result_file
-     
+
+def add_link_to_sam_magic(event, link_str):
+
+    event.add('X-ALT-DESC', link_str, parameters={'fmttype': 'text/html'})

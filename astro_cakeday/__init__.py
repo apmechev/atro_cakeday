@@ -20,7 +20,7 @@ from astro_cakeday.planets import Planets
 ##TODO: give next few birthdays
 
 class MyForm(FlaskForm):
-    name = StringField('Your Name')
+    name = StringField('Your Name (optional)')
     birthyear = IntegerField('Year', default=1999)
     birthmonth = IntegerField('Month', default=1)
     birthday = IntegerField('Day', default=1)

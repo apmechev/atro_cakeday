@@ -6,21 +6,15 @@ import time
 from flask import Flask
 from flask import request
 from flask import render_template 
-from flask import send_from_directory 
-from flask import flash
 from flask.logging import default_handler
 
-from flask import url_for 
-from flask_datepicker import datepicker
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, DateField
+from wtforms import StringField, IntegerField
 from wtforms import SubmitField
-from wtforms.validators import DataRequired
 
 from astro_cakeday.populate_cal import populate_ical
-from astro_cakeday.planets import PLANET_DB
-from logging.handlers import RotatingFileHandler
+from astro_cakeday.planets import Planets
 
 
 ##TODO: give next few birthdays
@@ -32,8 +26,6 @@ class MyForm(FlaskForm):
     birthday = IntegerField('Day', default=1)
     mercury_stagger = IntegerField('Skip Mercury Birthdays by', default=5)
     venus_stagger = IntegerField('Skip Venus Birthdays by', default=2)
-
-#    birthdate = DateField("Choose a date", id='.dp')
 
     cal_start = IntegerField('Start Year', default=2018)
     cal_end = IntegerField('End Year', default=2100)
@@ -54,8 +46,6 @@ def create_app(test_config=None):
 
     Bootstrap(app)
     
-#    datepicker.picker(dp, dateFormat='yyyy-mm-dd', id='.dp', minDate='1900-01-01', btnsId='dpbtn')
-
     app.logger.addHandler(default_handler)
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -96,12 +86,12 @@ def create_app(test_config=None):
             except Exception as e:
                 return "ERROR: {}".format(str(e))
 
-            PLANET_DB['Mercury'] = int(form.mercury_stagger.data)
-            PLANET_DB['Venus'] = int(form.venus_stagger.data)
+            custom_staggers = {'Mercury': int(form.mercury_stagger.data),
+                               'Venus': int(form.venus_stagger.data)}
+            planets = Planets(birthdate, staggers=custom_staggers)
 
-            icalfile = populate_ical(person_name=form.name.data,  birthday=birthdate,
-                                     PLANET_DB=PLANET_DB, cal_start=cal_start,
-                                     cal_end=cal_end)
+            icalfile = populate_ical(planets, person_name=form.name.data,  birthday=birthdate,
+                                     cal_start=cal_start, cal_end=cal_end)
             return render_template('result.html', filename=icalfile)
  
 

@@ -1,5 +1,5 @@
 from datetime import timedelta
-from icalendar import Calendar, Event, Alarm
+from icalendar import Event, Alarm
 import inflect
 p = inflect.engine()
 

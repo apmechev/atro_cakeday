@@ -1,25 +1,16 @@
 import astropy.units as u
 from astropy.time import Time
 
-PLANET_DB = {'Mercury': 5,
-             'Venus': 2,
-             'Earth': 1,
-             'Mars': 1,
-             'Saturn': 1,
-             'Jupiter': 1,
-             'Neptune': 1,
-             'Uranus': 1}
 
 class Planets():
 
-    def __init__(self, epoch):
+    def __init__(self, epoch, staggers={}):
 
         if type(epoch) is not Time:
             self.epoch = Time(epoch)
         else:
             self.epoch = epoch
 
-        self.planets = list(PLANET_DB.keys())
         self.periods = {'Mercury': 87.97 * u.d,
                         'Venus': 224.70 * u.d,
                         'Earth': 365.36 * u.d,
@@ -28,10 +19,22 @@ class Planets():
                         'Saturn': 10755.70 * u.d,
                         'Uranus': 30687.15 * u.d,
                         'Neptune': 60190.03 * u.d}
+        self.staggers = {'Mercury': 5,
+                         'Venus': 2,
+                         'Earth': 1,
+                         'Mars': 1,
+                         'Saturn': 1,
+                         'Jupiter': 1,
+                         'Neptune': 1,
+                         'Uranus': 1}
+        self.staggers.update(staggers)
+        self.planets = list(self.periods.keys())
 
     def get_birthday(self, planet, birthday_number=1):
 
-        birthday = self.epoch + self.periods[planet] * birthday_number * PLANET_DB[planet]
+        # birthday will be an astropy.time.Time object
+        birthday = self.epoch + self.periods[planet] * birthday_number * self.staggers[planet]
+        birthday.out_subfmt = 'date'
 
         return birthday
 

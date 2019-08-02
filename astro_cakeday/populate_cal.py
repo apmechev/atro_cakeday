@@ -34,7 +34,6 @@ def populate_ical(person_name="Alex", birthday="1989-06-21",
     cal.add('NAME', '{}{} planetary cake days'.format(person_name, suffix))
 
     planets = Planets(birthday_event)
-    default_alarm = DefaultAlarm()
 
     for name in planets.planets:
         start_number = (cal_start - birthday_event) / planets.periods[name] / PLANET_DB[name]
@@ -51,7 +50,6 @@ def populate_ical(person_name="Alex", birthday="1989-06-21",
             new_birthday_date.out_subfmt = 'date'
             planet_bday.add('dtstart', new_birthday_date.datetime.date())
 
-            planet_bday.add_component(default_alarm)
             cal.add_component(planet_bday)
             number += 1
 

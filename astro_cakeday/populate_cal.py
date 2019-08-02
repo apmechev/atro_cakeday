@@ -13,14 +13,14 @@ SAMLINK = "<a href=https://samreay.github.io/SpaceBirthdays/?date={}-{}-{}>Visua
 
 def populate_ical(person_name="Alex", birthday="1989-06-21",
                   PLANET_DB=PLANET_DB, cal_start=None, cal_end='2100-01-01'):
+
     birthday_time = Time(birthday)
 
     cal_start_dt = datetime.strptime(cal_start,"%Y-%m-%d")
     bday_dt = datetime.strptime(birthday,"%Y-%m-%d")
-    if cal_start is None:
+    if cal_start is None or cal_start_dt.year < bday_dt.year:
         cal_start = birthday
-    elif cal_start_dt.year < bday_dt.year :
-        cal_start = birthday 
+
     cal_start = Time(cal_start)
 
     cal_end = Time(cal_end)
@@ -28,16 +28,7 @@ def populate_ical(person_name="Alex", birthday="1989-06-21",
         cal_end = HARDSTOP
 
     cal = Calendar()
-
-    # Let's be smart about how to display the name
-    if person_name.lower() == 'your':
-        suffix = ''
-    else:
-        suffix = "'s"
-
-    # It's not clear from ical docs which of these is correct. Let's use both!
-    cal.add('X-WR-CALNAME', '{}{} planetary cake days'.format(person_name, suffix))
-    cal.add('NAME', '{}{} planetary cake days'.format(person_name, suffix))
+    set_cal_name(cal, person_name)
 
     planets = Planets(birthday_time)
     sam_link = SAMLINK.format(birthday_time.datetime.year,
@@ -56,7 +47,6 @@ def populate_ical(person_name="Alex", birthday="1989-06-21",
             if new_birthday_date > cal_end:
                 break
 
-            new_birthday_date.out_subfmt = 'date'
             planet_bday.add('dtstart', new_birthday_date.datetime.date())
             add_link_to_sam_magic(planet_bday, sam_link)
 
@@ -66,11 +56,24 @@ def populate_ical(person_name="Alex", birthday="1989-06-21",
     filename = base64.b64encode(
         "{}-{}".format(person_name, birthday).encode('utf-8')
         ).decode('ascii')[:-1]
-    f = open('astro_cakeday/uploads/{}.ics'.format(filename), 'wb')
-    f.write(cal.to_ical())
-    f.close()
+    with open('astro_cakeday/uploads/{}.ics'.format(filename), 'wb') as f:
+        f.write(cal.to_ical())
+
     result_file = "http://cakedays.space/calendars/{}.ics".format(filename)
     return result_file
+
+
+def set_cal_name(cal, person_name):
+
+    # Let's be smart about how to display the name
+    if person_name.lower() == 'your':
+        suffix = ''
+    else:
+        suffix = "'s"
+    # It's not clear from ical docs which of these is correct. Let's use both!
+    cal.add('X-WR-CALNAME', '{}{} planetary cake days'.format(person_name, suffix))
+    cal.add('NAME', '{}{} planetary cake days'.format(person_name, suffix))
+
 
 def add_link_to_sam_magic(event, link_str):
 

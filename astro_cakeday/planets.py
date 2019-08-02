@@ -31,7 +31,9 @@ class Planets():
 
     def get_birthday(self, planet, birthday_number=1):
 
+        # birthday will be an astropy.time.Time object
         birthday = self.epoch + self.periods[planet] * birthday_number * PLANET_DB[planet]
+        birthday.out_subfmt = 'date'
 
         return birthday
 

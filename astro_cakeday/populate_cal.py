@@ -10,18 +10,26 @@ from datetime import datetime
 HARDSTOP = Time('2300-01-01')
 SAMLINK = "<a href=https://samreay.github.io/SpaceBirthdays/?date={}-{}-{}>Visualize it!</a>"
 
-def populate_ical(planets, person_name="Alex", birthday="1989-06-21", cal_start=None, cal_end='2100-01-01'):
+def populate_ical(planets, person_name="Alex", birthday="1989-06-21", cal_start='2018-01-01', cal_end='2100-01-01'):
 
     birthday_time = Time(birthday)
 
-    cal_start_dt = datetime.strptime(cal_start,"%Y-%m-%d")
+    try:
+        cal_start_dt = datetime.strptime(cal_start,"%Y-%m-%d")
+    except ValueError:
+        cal_start_dt = datetime.strptime(birthday,"%Y-%m-%d")
+        cal_start = birthday
     bday_dt = datetime.strptime(birthday,"%Y-%m-%d")
-    if cal_start is None or cal_start_dt.year < bday_dt.year:
+    if cal_start_dt.year < bday_dt.year:
         cal_start = birthday
 
     cal_start = Time(cal_start)
 
-    cal_end = Time(cal_end)
+    try:
+        cal_end = Time(cal_end)
+    except ValueError:
+        cal_end = HARDSTOP
+
     if cal_end > HARDSTOP:
         cal_end = HARDSTOP
 

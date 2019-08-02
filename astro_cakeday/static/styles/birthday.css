@@ -91,3 +91,11 @@ div.border {
   border-radius: 15px;
 }
 
+.footer-result {
+  position: relative;
+  clear: both;
+  width: 85%;
+  color: white;
+  text-align: center;
+}
+

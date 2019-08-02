@@ -44,6 +44,10 @@ def populate_ical(person_name="Alex", birthday="1989-06-21",
         while new_birthday_date <= cal_end:
             planet_bday = PlanetaryBirthday(str(name), number * PLANET_DB[name], person_name=person_name)
             new_birthday_date = planets.get_birthday(name, number)
+
+            if new_birthday_date > cal_end:
+                break
+
             new_birthday_date.out_subfmt = 'date'
             planet_bday.add('dtstart', new_birthday_date.datetime.date())
 

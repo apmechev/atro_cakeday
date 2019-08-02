@@ -1,7 +1,5 @@
 import astropy.units as u
 from astropy.time import Time
-from poliastro.twobody import Orbit
-from poliastro import bodies
 
 PLANET_DB = {'Mercury': 5,
              'Venus': 2,
@@ -21,20 +19,15 @@ class Planets():
         else:
             self.epoch = epoch
 
-        self.orbits = {}
-        self.periods = {}
         self.planets = list(PLANET_DB.keys())
-
-        for planet in self.planets:
-
-            try:
-                body = getattr(bodies, planet)
-            except AttributeError:
-                raise AttributeError('Currently do not have data for {}'.format(planet))
-
-            orbit = Orbit.from_body_ephem(body, self.epoch)
-            self.orbits[planet] = orbit
-            self.periods[planet] = orbit.period.to(u.d)
+        self.periods = {'Mercury': 87.97 * u.d,
+                        'Venus': 224.70 * u.d,
+                        'Earth': 365.36 * u.d,
+                        'Mars': 686.98 * u.d,
+                        'Jupiter': 4332.82 * u.d,
+                        'Saturn': 10755.70 * u.d,
+                        'Uranus': 30687.15 * u.d,
+                        'Neptune': 60190.03 * u.d}
 
     def get_birthday(self, planet, birthday_number=1):
 

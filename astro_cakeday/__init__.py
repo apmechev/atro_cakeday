@@ -82,9 +82,11 @@ def create_app(test_config=None):
             day = form.birthday.data
             month = form.birthmonth.data
             year = form.birthyear.data
-            cal_start = form.cal_start.data
-            cal_end = form.cal_end.data
+            start_year = form.cal_start.data
+            end_year = form.cal_end.data
             birthdate = "{}-{}-{}".format(year, month, day)
+            cal_start = '{}-01-01'.format(start_year)
+            cal_end = '{}-01-01'.format(end_year)
             try:
                 datetime.datetime(year=year, month=month, day=day)
             except Exception as e:

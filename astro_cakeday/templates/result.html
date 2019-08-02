@@ -6,7 +6,7 @@
 {% endblock %}
 {% block content %}
 <div class="border">
-<a href="{{ filename }}">{{ filename }}</a>
+    <a href="{{ filename }}" download>{{ filename }}</a>
 <br>
 <img class="cake" src="{{url_for('static', filename='cake.png')}}"/>
 <br>

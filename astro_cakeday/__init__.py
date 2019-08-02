@@ -35,6 +35,9 @@ class MyForm(FlaskForm):
     cal_end = IntegerField('End Year', default=2100)
     submit = SubmitField('Give me my birthday:)')
 
+class DateForm(FlaskForm):
+    date = DateField(id='datepick')
+
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -47,7 +50,7 @@ def create_app(test_config=None):
 
     Bootstrap(app)
     
-    datepicker.picker(dp, dateFormat='yyyy-mm-dd', id='.dp', minDate='1900-01-01', btnsId='dpbtn')
+#    datepicker.picker(dp, dateFormat='yyyy-mm-dd', id='.dp', minDate='1900-01-01', btnsId='dpbtn')
 
     app.logger.addHandler(default_handler)
     if test_config is None:
@@ -97,5 +100,10 @@ def create_app(test_config=None):
  
 
         return render_template('birthday.html', form=form)
+
+    @app.route('/date',  methods=['GET', 'POST'])
+    def date():
+        form = DateForm()
+        return render_template('test_date.html', form=form)
 
     return app

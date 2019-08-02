@@ -49,7 +49,7 @@ div.border {
     border-width: 3px;
     border-radius: 10px;
     background-color: #b0b0b099;
-    border-color: #fff6
+    border-color: #fff6;
 }
 
 .active {
@@ -82,11 +82,13 @@ div.border {
 
 
 .footer {
-  position: fixed;
-  bottom: 0;
+  position: relative;
+  clear: both;
   width: 85%;
   color: white;
   text-align: center;
+  background-color: #b0b0b099;
+  border-radius: 15px;
 }
 
 

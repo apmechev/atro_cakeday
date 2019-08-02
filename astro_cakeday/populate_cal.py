@@ -74,4 +74,6 @@ def populate_ical(person_name="Alex", birthday="1989-06-21",
 
 def add_link_to_sam_magic(event, link_str):
 
+    # It appears that some calendar apps support one of these and some the other. Let's have both
     event.add('X-ALT-DESC', link_str, parameters={'fmttype': 'text/html'})
+    event.add('Description', link_str)

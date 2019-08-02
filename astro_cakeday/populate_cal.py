@@ -8,7 +8,7 @@ from datetime import datetime
 # TODO: I want birthdays from when I was 12 - 13, e.g.
 
 HARDSTOP = Time('2300-01-01')
-SAMLINK = "<a href=https://samreay.github.io/SpaceBirthdays/?date={}-{}-{}>Visualize it!</a>"
+SAMLINK = "<a href=https://samreay.github.io/SpaceBirthdays/?date={0}-{1:02d}-{2:02d}>Visualize it!</a>"
 
 def populate_ical(planets, person_name="Alex", birthday="1989-06-21", cal_start='2018-01-01', cal_end='2100-01-01'):
 

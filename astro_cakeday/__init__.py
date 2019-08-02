@@ -12,13 +12,14 @@ from flask import url_for
 from flask_datepicker import datepicker
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, DateField
 from wtforms import SubmitField
-from wtforms.fields import DateField
 from wtforms.validators import DataRequired
 
 from astro_cakeday.populate_cal import populate_ical
 from astro_cakeday.planets import PLANET_DB
+
+##TODO: give next few birthdays
 
 class MyForm(FlaskForm):
     name = StringField('Your Name')
@@ -27,6 +28,9 @@ class MyForm(FlaskForm):
     birthday = IntegerField('Day', default=1)
     mercury_stagger = IntegerField('Skip Mercury Birthdays by', default=2)
     venus_stagger = IntegerField('Skip Venus Birthdays by', default=1)
+
+#    birthdate = DateField("Choose a date", id='.dp')
+
     cal_start = IntegerField('Start Year', default=1999)
     cal_end = IntegerField('End Year', default=2100)
     submit = SubmitField('Give me my birthday:)')
@@ -40,8 +44,11 @@ def create_app(test_config=None):
     UPLOAD_FOLDER = 'uploads'
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-    datepicker(app)
+
     Bootstrap(app)
+    
+    datepicker.picker(dp, dateFormat='yyyy-mm-dd', id='.dp', minDate='1900-01-01', btnsId='dpbtn')
+
     app.logger.addHandler(default_handler)
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -58,7 +65,15 @@ def create_app(test_config=None):
 
     @app.route('/',  methods=['GET', 'POST'])
     def hello():
-        app.logger.info("visit from {}".format(request.remote_addr))
+        if request.user_agent:
+            user_agent = request.user_agent.string
+            platform = request.user_agent.platform
+            browser = request.user_agent.browser
+            language = request.user_agent.language
+        app.logger.info("visit from ip:{}, pltf:{}, brws:{}, lng:{}".format(request.remote_addr,
+                    platform, browser, language))
+        app.logger.info("full_user_agent: {}".format(user_agent))
+        app.logger.info("Referrer: {}".format(request.referrer))
         form = MyForm()
         if request.method == 'POST':
             day = form.birthday.data

@@ -9,6 +9,7 @@
 body {
   font-size: 15px;
   background-color: black;
+  color: #EEE;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -24,9 +25,30 @@ img {
     z-index: -99;
 }
 
+img.cake {
+    position: absolute;
+    top: -15%;
+    left: 90%; 
+    transform: translate(-50%, -50%);
+    width: 30%;
+    opacity: 0.8;
+    z-index: -99;
+}
+
 h1 {
     color: white;
 
+}
+
+h4 { 
+    color: white;
+}
+
+div.border {
+    border-style: solid;
+    border-width: 3px;
+    border-radius: 10px;
+    background-color: #b0b0b0;
 }
 
 .active {

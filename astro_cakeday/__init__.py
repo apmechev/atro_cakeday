@@ -84,7 +84,7 @@ def create_app(test_config=None):
             try:
                 datetime.datetime(year=year, month=month, day=day)
             except Exception as e:
-                return "ERROR: {}".format(str(e))
+                return "ERROR: the birthday year, month, or day entered could not be understood; {}".format(str(e))
 
             try:
                 merc_stag = int(form.mercury_stagger.data)

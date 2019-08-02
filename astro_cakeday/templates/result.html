@@ -6,12 +6,12 @@
 {% endblock %}
 {% block content %}
 <div class="border">
-    <a href="{{ filename }}" download>{{ filename }}</a>
-<br>
+    <h4>Download this file to your machine:</h4>
+    <h4><a href="{{ filename }}" download>{{ filename }}</a></h4>
 <img class="cake" src="{{url_for('static', filename='cake.png')}}"/>
 <br>
 <h4>To Add to Google Calendar:</h4>
-Paste the above URL into<a href="https://calendar.google.com/calendar/r/settings/addbyurl">this link</a>
+<h4>Paste the above URL into<a href="https://calendar.google.com/calendar/r/settings/addbyurl">this link</a></h4>
 </div>
 {% endblock %}
 

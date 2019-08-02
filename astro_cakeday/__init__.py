@@ -60,7 +60,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    def count_visitors(logfile='/home/cakedays/astro_cakeday/cakedays.space.log'):
+    def count_visitors(logfile='cakedays.space.log'):
         return open(logfile, 'r').read().count('pltf')
 
     @app.route('/',  methods=['GET', 'POST'])

@@ -64,7 +64,7 @@ def populate_ical(person_name="Alex", birthday="1989-06-21",
             number += 1
 
     filename = base64.b64encode(
-        "{}-{}-{}".format(person_name, birthday, birthday_number).encode('utf-8')
+        "{}-{}-{}".format(person_name, birthday).encode('utf-8')
         ).decode('ascii')[:-1]
     f = open('astro_cakeday/uploads/{}.ics'.format(filename), 'wb')
     f.write(cal.to_ical())

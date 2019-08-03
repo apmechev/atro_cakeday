@@ -2,8 +2,10 @@ import base64
 
 from astropy.time import Time
 from astro_cakeday.birthday import PlanetaryBirthday
+from astro_cakeday.config import SECRET_KEY
 from icalendar import Calendar
 from datetime import datetime
+import hashlib
 
 # TODO: I want birthdays from when I was 12 - 13, e.g.
 
@@ -59,9 +61,9 @@ def populate_ical(planets, person_name="Alex", birthday="1989-06-21", cal_start=
             cal.add_component(planet_bday)
             number += 1
 
-    filename = base64.b64encode(
-        "{}-{}".format(person_name, birthday).encode('utf-8')
-        ).decode('ascii')[:-1]
+    filename = hashlib.sha256(
+        "{}-{}-{}-{}".format(person_name, birthday, SECRET_KEY, planets).encode('ascii')
+        ).hexdigest()
     with open('astro_cakeday/uploads/{}.ics'.format(filename), 'wb') as f:
         f.write(cal.to_ical())
 

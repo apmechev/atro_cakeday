@@ -1,11 +1,17 @@
 import base64
+import os
+import pkg_resources
 
 from astropy.time import Time
 from astro_cakeday.birthday import PlanetaryBirthday
-from astro_cakeday.config import SECRET_KEY
 from icalendar import Calendar
 from datetime import datetime
 import hashlib
+
+if os.path.exists(pkg_resources.resource_filename('astro_cakeday', 'config.py')):
+    from astro_cakeday.config import SECRET_KEY
+else:
+    SECRET_KEY = "NOSECRET"
 
 # TODO: I want birthdays from when I was 12 - 13, e.g.
 

@@ -3,6 +3,8 @@ from icalendar import Event, Alarm
 import inflect
 p = inflect.engine()
 
+TEMPLATE = '{}{} {} Birthday on {}' 
+TEMPLATE_EARTH = '{}{} {}  (sidereal) Birthday on {}'
 
 class PlanetaryBirthday(Event):
     def __init__(self, planet='Earth', birthday_number=1, person_name='Your'):
@@ -13,8 +15,13 @@ class PlanetaryBirthday(Event):
             suffix = ''
         else:
             suffix = "'s"
-
-        self.add('summary', '{}{} {} Birthday on {}'.format(
+        
+        if planet == 'Earth':
+            self.add('summary', TEMPLATE_EARTH.format(
+                person_name, suffix, p.ordinal(birthday_number), planet
+                ))
+        else:
+            self.add('summary', TEMPLATE.format(
             person_name, suffix, p.ordinal(birthday_number), planet))
         self.add('location', planet)
 

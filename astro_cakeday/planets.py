@@ -10,15 +10,23 @@ class Planets():
             self.epoch = Time(epoch)
         else:
             self.epoch = epoch
+        # Taken from https://nssdc.gsfc.nasa.gov/planetary/factsheet/
+        # We use the tropical Orbital period
+        self.tropical_periods = {'Mercury': 87.968 * u.d,
+                        'Venus': 224.695 * u.d,
+                        'Earth': 365.242 * u.d,
+                        'Mars': 686.973 * u.d,
+                        'Jupiter': 4330.595 * u.d,
+                        'Saturn': 10746.94 * u.d,
+                        'Uranus': 30588.740 * u.d,
+                        'Neptune': 59799.9 * u.d}
+        @property
+        def periods(self,kind='tropical'):
+            if kind == 'tropical':
+                return self.tropical_periods
+            else:
+                return self.sidereal_periods
 
-        self.periods = {'Mercury': 87.97 * u.d,
-                        'Venus': 224.70 * u.d,
-                        'Earth': 365.36 * u.d,
-                        'Mars': 686.98 * u.d,
-                        'Jupiter': 4332.82 * u.d,
-                        'Saturn': 10755.70 * u.d,
-                        'Uranus': 30687.15 * u.d,
-                        'Neptune': 60190.03 * u.d}
         self.staggers = {'Mercury': 5,
                          'Venus': 2,
                          'Earth': 1,

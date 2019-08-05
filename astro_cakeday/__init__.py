@@ -106,7 +106,7 @@ def create_app(test_config=None):
                                'Venus': ven_stag}
             planets = Planets(birthdate, staggers=custom_staggers)
 
-            icalfile = populate_ical(planets, person_name=form.name.data,  birthday=birthdate,
+            icalfile = populate_ical(planets, person_name=form.name.data or 'Your',  birthday=birthdate,
                                      cal_start=cal_start, cal_end=cal_end)
             return render_template('result.html', filename=icalfile, count_visitors=count_visitors)
  

@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block scripts %}
-      {{ super() }}
+      {{ super() }} 
 {% endblock %}
 
 {% block content %}
@@ -28,6 +28,17 @@
 	{{ form.cal_start(class_='validate') }}
 	{{ form.cal_end.label(class_='active') }}
 	{{ form.cal_end(class_='validate') }}<br><br>
+	<!--	{{ form.year_type() }} -->
+	{% for subfield in form.year_type %}
+	<tr>
+	    <td>{{ subfield }}</td>
+	    <td>{{ subfield.label }}</td>
+	</tr>	
+	{% endfor %}
+
+
+
+
 
 	<p>{{ form.submit(class_='submit') }} </p>
   </form>

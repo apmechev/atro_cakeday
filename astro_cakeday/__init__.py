@@ -12,6 +12,7 @@ from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField
 from wtforms import SubmitField
+from wtforms import RadioField 
 
 from astro_cakeday.populate_cal import populate_ical
 from astro_cakeday.planets import Planets
@@ -29,6 +30,9 @@ class MyForm(FlaskForm):
 
     cal_start = IntegerField('Start Year', default=2018)
     cal_end = IntegerField('End Year', default=2100)
+    year_type =  RadioField('', 
+            choices=[('sidereal','Sidereal Year'),('tropical','Tropical Year')], 
+            default='tropical')
     submit = SubmitField('Submit!')
 
 
@@ -104,10 +108,11 @@ def create_app(test_config=None):
                 ven_stag = form.venus_stagger.default
             custom_staggers = {'Mercury': merc_stag,
                                'Venus': ven_stag}
-            planets = Planets(birthdate, staggers=custom_staggers)
+            planet_period = form.year_type.data
+            planets = Planets(birthdate, staggers=custom_staggers, period=planet_period)
 
             icalfile = populate_ical(planets, person_name=form.name.data or 'Your',  birthday=birthdate,
-                                     cal_start=cal_start, cal_end=cal_end)
+                                    cal_start=cal_start, cal_end=cal_end)
             return render_template('result.html', filename=icalfile, count_visitors=count_visitors)
  
 

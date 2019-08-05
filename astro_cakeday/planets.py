@@ -50,6 +50,9 @@ class Planets():
         else:
             return self.sidereal_periods
 
+    def __repr__(self):
+        return "E: {}, st:{}, per:{}".format(self.epoch, 
+                            self.staggers, self.periods)
     def get_birthday(self, planet, birthday_number=1):
 
         # birthday will be an astropy.time.Time object

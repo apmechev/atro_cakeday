@@ -42,7 +42,7 @@ def populate_ical(planets, person_name="Alex", birthday="1989-06-21", cal_start=
         cal_end = HARDSTOP
 
     cal = Calendar()
-    set_cal_name(cal, person_name)
+    set_cal_name(cal, person_name, planets.period_kind)
 
     # We do this now because it will be the same inside every loop below
     sam_link = SAMLINK.format(birthday_time.datetime.year,
@@ -77,7 +77,7 @@ def populate_ical(planets, person_name="Alex", birthday="1989-06-21", cal_start=
     return result_file
 
 
-def set_cal_name(cal, person_name):
+def set_cal_name(cal, person_name, birthday_type):
 
     # Let's be smart about how to display the name
     if person_name.lower() == 'your':
@@ -85,8 +85,8 @@ def set_cal_name(cal, person_name):
     else:
         suffix = "'s"
     # It's not clear from ical docs which of these is correct. Let's use both!
-    cal.add('X-WR-CALNAME', '{}{} planetary cake days'.format(person_name, suffix))
-    cal.add('NAME', '{}{} planetary cake days'.format(person_name, suffix))
+    cal.add('X-WR-CALNAME', '{}{} ({}) planetary birthdays'.format(person_name, suffix, birthday_type))
+    cal.add('NAME', '{}{} ({}) planetary birthdays'.format(person_name, suffix, birthday_type))
 
 
 def add_link_to_sam_magic(event, link_str):

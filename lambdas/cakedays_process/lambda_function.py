@@ -47,10 +47,12 @@ def lambda_handler(event, context):
                       period=planet_period)
     icalfile = populate_ical(planets, person_name=name,  birthday=birthdate,
                              cal_start=cal_start, cal_end=cal_end)
-    print(icalfile)
-    result = bakery_bucket.upload_file(icalfile,
-                                       icalfile.split("/tmp")[1].replace("/", ""))
+    filename = '/tmp/{}.ics'.format(icalfile)
+    print(filename)
+    result = bakery_bucket.upload_file(filename,
+                                       filename.split("/tmp")[1].replace("/", ""))
     print(result)
+
     return {
         'statusCode': 200,
         'body': json.dumps('Success')

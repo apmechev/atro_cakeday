@@ -15,7 +15,7 @@ import hashlib
 if os.path.exists(pkg_resources.resource_filename('astro_cakeday', 'config.py')):
     from astro_cakeday.config import SECRET_KEY
 elif os.environ.get("SECRET_KEY"):
-    SECRET_KEY = os.eniron.get("SECRET_KEY")
+    SECRET_KEY = os.environ.get("SECRET_KEY")
 else:
     SECRET_KEY = ''.join(random.choice(
         string.ascii_uppercase + string.digits) for _ in range(63))

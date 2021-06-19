@@ -7,6 +7,10 @@ module "process_lambda" {
   handler       = "lambda_function.lambda_handler"
   runtime       = "python3.8"
 
+  environment_variables = {
+    "SECRET_KEY": var.SECRET_KEY
+  }
+
   source_path = "./lambdas/cakedays_process/"
 
   }

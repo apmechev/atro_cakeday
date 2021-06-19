@@ -9,3 +9,7 @@ variable "site_name" {
 variable "region" {
     default = "eu-central-1"
 }
+
+variable SECRET_KEY {
+    
+}

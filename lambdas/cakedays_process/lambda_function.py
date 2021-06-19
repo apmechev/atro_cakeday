@@ -49,8 +49,8 @@ def lambda_handler(event, context):
                              cal_start=cal_start, cal_end=cal_end)
     filename = '/tmp/{}.ics'.format(icalfile)
     print(filename)
-    result = bakery_bucket.upload_file(f"baked/{filename}",
-                                       filename.split("/tmp")[1].replace("/", ""))
+    result = bakery_bucket.upload_file(filename,
+                                       "baked/"+filename.split("/tmp")[1].replace("/", ""))
     print(result)
 
     return {

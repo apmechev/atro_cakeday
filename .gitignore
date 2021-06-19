@@ -117,3 +117,4 @@ venv.bak/
 *.plan.json
 *.zip
 *.tfstate*
+builds/

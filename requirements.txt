@@ -1,10 +1,6 @@
 astropy==3.2.1
 Click==7.0
 dominate==2.3.5
-Flask==1.1.1
-Flask-Bootstrap==3.3.7.1
-Flask-Datepicker==0.12
-Flask-WTF==0.14.2
 icalendar==4.0.3
 inflect==2.1.0
 itsdangerous==1.1.0

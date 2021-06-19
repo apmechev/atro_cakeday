@@ -12,5 +12,8 @@ module "process_lambda" {
   }
   memory_size  = 1024
   source_path = "./lambdas/cakedays_process/"
+ 
+  layers =["arn:aws:lambda:eu-central-1:311504692153:layer:cakedays_space_v1:7",
+           "arn:aws:lambda:eu-central-1:292169987271:layer:AWSLambda-Python38-SciPy1x:29"]
 
   }

@@ -6,7 +6,7 @@ import json
 import boto3
 
 from astro_cakeday.planets import Planets
-from astro_cakeday.populate_ical import populate_ical
+from astro_cakeday.populate_cal import populate_ical
 
 s3 = boto3.resource('s3')
 bakery_bucket = s3.Bucket(os.environ.get("BAKERY_BUCKET_NAME",

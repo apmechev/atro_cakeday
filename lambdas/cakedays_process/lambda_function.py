@@ -9,8 +9,9 @@ from astro_cakeday.planets import Planets
 from astro_cakeday.populate_cal import populate_ical
 
 s3 = boto3.resource('s3')
-bakery_bucket = s3.Bucket(os.environ.get("BAKERY_BUCKET_NAME",
-                                         "bakery.cakedays.space"))
+bucket_name = os.environ.get("BAKERY_BUCKET_NAME",
+                             "bakery.cakedays.space")
+bakery_bucket = s3.Bucket(bucket_name)
 
 
 def lambda_handler(event, context):
@@ -48,12 +49,14 @@ def lambda_handler(event, context):
     icalfile = populate_ical(planets, person_name=name,  birthday=birthdate,
                              cal_start=cal_start, cal_end=cal_end)
     filename = '/tmp/{}.ics'.format(icalfile)
+    s3_key = "baked/"+filename.split("/tmp")[1].replace("/", "")
     print(filename)
     result = bakery_bucket.upload_file(filename,
-                                       "baked/"+filename.split("/tmp")[1].replace("/", ""))
+                                       s3_key)
     print(result)
 
     return {
         'statusCode': 200,
-        'body': json.dumps('Success')
+        'body': json.dumps({"Success": True,
+                            "cake": f"http://{bucket_name}.s3-website.eu-central-1.amazonaws.com/{s3_key}"})
     }

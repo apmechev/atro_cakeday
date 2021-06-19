@@ -1,6 +1,10 @@
 import base64
 import os
 import pkg_resources
+import random
+import string
+
+import boto3
 
 from astropy.time import Time
 from astro_cakeday.birthday import PlanetaryBirthday
@@ -10,24 +14,28 @@ import hashlib
 
 if os.path.exists(pkg_resources.resource_filename('astro_cakeday', 'config.py')):
     from astro_cakeday.config import SECRET_KEY
+elif os.environ.get("SECRET_KEY"):
+    SECRET_KEY = os.eniron.get("SECRET_KEY")
 else:
-    SECRET_KEY = "NOSECRET"
+    SECRET_KEY = ''.join(random.choice(
+        string.ascii_uppercase + string.digits) for _ in range(63))
 
 # TODO: I want birthdays from when I was 12 - 13, e.g.
 
 HARDSTOP = Time('2300-01-01')
 SAMLINK = "<a href=https://samreay.github.io/SpaceBirthdays/?date={0}-{1:02d}-{2:02d}>Visualize it!</a>"
 
-def populate_ical(planets, person_name="Alex", birthday="1989-06-21", cal_start='2018-01-01', cal_end='2100-01-01'):
+
+def populate_ical(planets, person_name="Alex", birthday="1990-01-01", cal_start='2018-01-01', cal_end='2100-01-01'):
 
     birthday_time = Time(birthday)
 
     try:
-        cal_start_dt = datetime.strptime(cal_start,"%Y-%m-%d")
+        cal_start_dt = datetime.strptime(cal_start, "%Y-%m-%d")
     except ValueError:
-        cal_start_dt = datetime.strptime(birthday,"%Y-%m-%d")
+        cal_start_dt = datetime.strptime(birthday, "%Y-%m-%d")
         cal_start = birthday
-    bday_dt = datetime.strptime(birthday,"%Y-%m-%d")
+    bday_dt = datetime.strptime(birthday, "%Y-%m-%d")
     if cal_start_dt.year < bday_dt.year:
         cal_start = birthday
 
@@ -50,12 +58,14 @@ def populate_ical(planets, person_name="Alex", birthday="1989-06-21", cal_start=
                               birthday_time.datetime.day)
 
     for name in planets.planets:
-        start_number = (cal_start - birthday_time) / planets.periods[name] / planets.staggers[name]
+        start_number = (cal_start - birthday_time) / \
+            planets.periods[name] / planets.staggers[name]
         number = int(start_number)
         new_birthday_date = cal_start
 
         while new_birthday_date <= cal_end:
-            planet_bday = PlanetaryBirthday(str(name), number * planets.staggers[name], person_name=person_name)
+            planet_bday = PlanetaryBirthday(
+                str(name), number * planets.staggers[name], person_name=person_name)
             new_birthday_date = planets.get_birthday(name, number)
 
             if new_birthday_date > cal_end:
@@ -68,13 +78,13 @@ def populate_ical(planets, person_name="Alex", birthday="1989-06-21", cal_start=
             number += 1
 
     filename = hashlib.sha256(
-        "{}-{}-{}-{}".format(person_name, birthday, SECRET_KEY, planets).encode('ascii')
-        ).hexdigest()
-    with open('astro_cakeday/uploads/{}.ics'.format(filename), 'wb') as f:
+        "{}-{}-{}-{}".format(person_name, birthday,
+                             SECRET_KEY, planets).encode('ascii')
+    ).hexdigest()
+    with open('/tmp/{}.ics'.format(filename), 'wb') as f:
         f.write(cal.to_ical())
 
-    result_file = "http://cakedays.space/calendars/{}.ics".format(filename)
-    return result_file
+    return filename
 
 
 def set_cal_name(cal, person_name, birthday_type):
@@ -85,8 +95,10 @@ def set_cal_name(cal, person_name, birthday_type):
     else:
         suffix = "'s"
     # It's not clear from ical docs which of these is correct. Let's use both!
-    cal.add('X-WR-CALNAME', '{}{} ({}) planetary birthdays'.format(person_name, suffix, birthday_type))
-    cal.add('NAME', '{}{} ({}) planetary birthdays'.format(person_name, suffix, birthday_type))
+    cal.add('X-WR-CALNAME',
+            '{}{} ({}) planetary birthdays'.format(person_name, suffix, birthday_type))
+    cal.add('NAME', '{}{} ({}) planetary birthdays'.format(
+        person_name, suffix, birthday_type))
 
 
 def add_link_to_sam_magic(event, link_str):

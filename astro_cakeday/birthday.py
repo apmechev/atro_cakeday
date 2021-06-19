@@ -3,7 +3,8 @@ from icalendar import Event, Alarm
 import inflect
 p = inflect.engine()
 
-TEMPLATE = '{}{} {} Birthday on {}' 
+TEMPLATE = '{}{} {} Birthday on {}'
+
 
 class PlanetaryBirthday(Event):
     def __init__(self, planet='Earth', birthday_number=1, person_name='Your'):
@@ -19,6 +20,7 @@ class PlanetaryBirthday(Event):
             person_name, suffix, p.ordinal(birthday_number), planet))
         self.add('location', planet)
 
+
 class DefaultAlarm(Alarm):
 
     def __init__(self):
@@ -27,4 +29,3 @@ class DefaultAlarm(Alarm):
         self.add('action', 'display')
         self.add('trigger', timedelta(days=-1))
         self.add('description', 'Alert Get Cake!')
-

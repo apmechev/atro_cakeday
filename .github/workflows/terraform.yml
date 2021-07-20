@@ -23,4 +23,4 @@ jobs:
       - run: echo "::set-env name=BRANCH_NAME::${{ github.head_ref }}"
       - run: terraform init
       - run: terraform workspace select $BRANCH_NAME || terraform workspace new $BRANCH_NAME
-      - run: terraform apply -var="branch_name=$BRANCH_NAME" -var="SECRET_KEY=${{CAKEDAYS_SECRET_KEY}}" -auto-approve
+      - run: terraform apply -var="branch_name=$BRANCH_NAME" -var="SECRET_KEY=${{secrets.CAKEDAYS_SECRET_KEY}}" -auto-approve

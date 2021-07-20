@@ -27,11 +27,21 @@ jobs:
     steps:
     - name: "Checkout"
       uses: actions/checkout@v2
+
+    - name: Setup Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
     - name: "Terraform Init"
       uses: hashicorp/terraform-github-actions@master
       with:
        tf_actions_version: 1.0.0
        tf_actions_subcommand: "init"
+
+    - name: "Select Workspace"
+      run: terraform workspace select $BRANCH_NAME || terraform workspace new $BRANCH_NAME
+
     - name: "Terraform Plan"
       uses: hashicorp/terraform-github-actions@master
       with:
@@ -39,7 +49,7 @@ jobs:
        tf_actions_subcommand: "plan"
        args: -var="branch_name=$BRANCH_NAME"
              -var="SECRET_KEY=${{secrets.CAKEDAYS_SECRET_KEY}}
-    - name: "Select Workspace"
-      run: terraform workspace select $BRANCH_NAME || terraform workspace new $BRANCH_NAME
+
+
 
 #      terraform apply -var="branch_name=$BRANCH_NAME" -var="SECRET_KEY=${{secrets.CAKEDAYS_SECRET_KEY}}" -auto-approve

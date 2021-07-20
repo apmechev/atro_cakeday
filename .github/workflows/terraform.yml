@@ -25,11 +25,6 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
 
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
@@ -53,7 +48,7 @@ jobs:
         run: terraform init
       
       - name: "Select Workspace"
-        run: terraform workspace select ${{ steps.extract_branch.outputs.branch }} || terraform workspace new ${{ steps.extract_branch.outputs.branch }}
+        run: terraform workspace select ${{ github.head_ref }} || terraform workspace new ${{ github.head_ref }}
   
       - name: "Terraform Plan"
-        run: terraform plan var="branch_name=${{ steps.extract_branch.outputs.branch }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}"
+        run: terraform plan var="branch_name=${{ github.head_ref }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}"

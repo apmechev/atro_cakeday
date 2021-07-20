@@ -24,6 +24,7 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: eu-central-1
+      BRANCH_NAME: ${GITHUB_REF##*/}
     steps:
     - name: "Checkout"
       uses: actions/checkout@v2
@@ -45,7 +46,7 @@ jobs:
        tf_actions_version: 1.0.0
        tf_actions_subcommand: "plan"
        workspace: $BRANCH_NAME
-       args: -var="branch_name=$BRANCH_NAME"
+       args: -var="branch_name=${{env.BRANCH_NAME}}"
              -var="SECRET_KEY=${{secrets.CAKEDAYS_SECRET_KEY}}
 
     - name: "Terraform Apply"
@@ -54,6 +55,6 @@ jobs:
        tf_actions_version: 1.0.0
        tf_actions_subcommand: "apply"
        workspace: $BRANCH_NAME
-       args: -var="branch_name=$BRANCH_NAME"
+       args: -var="branch_name=${{env.BRANCH_NAME}}"
              -var="SECRET_KEY=${{secrets.CAKEDAYS_SECRET_KEY}}
              -auto-approve

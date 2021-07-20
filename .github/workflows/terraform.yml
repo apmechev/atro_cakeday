@@ -51,11 +51,11 @@ jobs:
       - name: "Terraform Plan"
         uses: hashicorp/terraform-github-actions@master
         with:
-        tf_actions_version: 1.0.0
-        tf_actions_subcommand: "plan"
-        workspace: $BRANCH_NAME
-        args: -var="branch_name=${{ github.head_ref }}"
-              -var="SECRET_KEY=${{secrets.CAKEDAYS_SECRET_KEY}}
+          tf_actions_version: 1.0.0
+          tf_actions_subcommand: "plan"
+          workspace: $BRANCH_NAME
+          args: -var="branch_name=${{ github.head_ref }}"
+                -var="SECRET_KEY=${{secrets.CAKEDAYS_SECRET_KEY}}
 
       # - name: "Terraform Apply"
       #   uses: hashicorp/terraform-github-actions@master

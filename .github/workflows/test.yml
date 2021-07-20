@@ -20,3 +20,9 @@ jobs:
       - run: ls
       - run: which python
       - run: which python3
+
+      - name: "Terraform Init"
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 1.0.0
+          tf_actions_subcommand: "init"

@@ -25,8 +25,8 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
       - name: Print branch name
-          if: github.event_name == 'pull_request'
-          run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_HEAD_REF})"
+        if: github.event_name == 'pull_request'
+        run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_HEAD_REF})"
 
       - name: List files in the repository
         run: |

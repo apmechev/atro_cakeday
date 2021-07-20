@@ -20,6 +20,7 @@ jobs:
       AWS_REGION: 'eu-central-1'
     steps:
       - uses: actions/checkout@v2
-      - run: terraform init
-      - run: terraform workspace select $BRANCH_NAME || terraform workspace new $BRANCH_NAME
-      - run: terraform apply -var="branch_name=$BRANCH_NAME" -var="SECRET_KEY=${{secrets.CAKEDAYS_SECRET_KEY}}" -auto-approve
+      - run: |
+        terraform init
+        terraform workspace select $BRANCH_NAME || terraform workspace new $BRANCH_NAME
+        terraform apply -var="branch_name=$BRANCH_NAME" -var="SECRET_KEY=${{secrets.CAKEDAYS_SECRET_KEY}}" -auto-approve

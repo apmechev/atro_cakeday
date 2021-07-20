@@ -57,3 +57,6 @@ jobs:
   
       - name: "Terraform Plan"
         run: terraform plan -var="branch_name=${{ github.head_ref }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}"
+
+      - name: "Terraform Apply"
+        run: terraform apply -var="branch_name=${{ github.head_ref }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}" -auto-approve

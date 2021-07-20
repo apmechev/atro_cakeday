@@ -34,9 +34,7 @@ jobs:
         python-version: '3.8'
 
     - name: "Which Python"
-      run: |
-        which -a python
-        which -a python3
+      run: echo which -a python
 
     - name: "Terraform Init"
       uses: hashicorp/terraform-github-actions@master

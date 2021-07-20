@@ -33,9 +33,6 @@ jobs:
       with:
         python-version: '3.8'
 
-    - name: "Which Python"
-      run: python --version
-
     - name: "Terraform Init"
       uses: hashicorp/terraform-github-actions@master
       with:

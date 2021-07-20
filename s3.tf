@@ -65,3 +65,11 @@ resource "aws_s3_bucket_policy" "bakery_bucket_policy" {
       ]
   })
 }
+
+resource "aws_s3_bucket_object" "index_html" {
+  bucket = aws_s3_bucket.site_bucket.name
+  key    = "index.html"
+  source = "astro_cakeday/static/index.html"
+  
+  etag = filemd5("astro_cakeday/static/index.html")
+}

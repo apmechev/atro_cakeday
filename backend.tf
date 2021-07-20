@@ -1,14 +1,14 @@
 terraform {
   required_version = "~>1.0.0"
 
-  #  backend "s3" {
-  #    bucket                  = "apmechev-tfm-remote-state"
-  #    region                  = "eu-central-1"
-  #    key                     = "cakedays.tfstate"
-  #    encrypt                 = "true"
-  #    shared_credentials_file = "~/.aws/credentials"
-  #    profile                 = "ci-glbl-auto"
-  #  }
+   backend "s3" {
+     bucket                  = "apmechev-tfm-remote-state"
+     region                  = "eu-central-1"
+     key                     = "cakedays.tfstate"
+     encrypt                 = "true"
+#     shared_credentials_file = "~/.aws/credentials"
+#     profile                 = "ci-glbl-auto"
+   }
 
   required_providers {
     archive = {

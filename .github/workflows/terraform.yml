@@ -35,6 +35,8 @@ jobs:
         with:
           python-version: '3.8'
 
+      - name: "Test S3"
+        run: aws s3  ls s3://apmechev-tfm-remote-state
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:

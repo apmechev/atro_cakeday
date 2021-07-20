@@ -24,8 +24,10 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: Print branch name
+          if: github.event_name == 'pull_request'
+          run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_HEAD_REF})"
+
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
@@ -47,3 +49,9 @@ jobs:
 
       - name: "Terraform Init"
         run: terraform init
+      
+      - name: "Select Workspace"
+        run: terraform workspace select $BRANCH_NAME || terraform workspace new $BRANCH_NAME
+  
+      - name: "Terraform Plan"
+        run: terraform plan var="branch_name=$BRANCH_NAME" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}"

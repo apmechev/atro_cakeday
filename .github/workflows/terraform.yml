@@ -48,7 +48,9 @@ jobs:
         run: terraform init
       
       - name: "Select Workspace"
-        run: terraform workspace select ${{ github.head_ref }} || terraform workspace new ${{ github.head_ref }}
+        run: |
+          if [ -z $( terraform workspace list | grep '${{ github.head_ref }}') ]; then terraform workspace new ${{ github.head_ref }}; fi
+          terraform workspace select ${{ github.head_ref }} || 
   
       - name: "Terraform Plan"
         run: terraform plan var="branch_name=${{ github.head_ref }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}"

@@ -16,7 +16,7 @@ on:
 jobs:
   create-infra:
     name: Setup Infrastructure
-    runs-on: python:latest
+    runs-on: ubuntu_latest
     defaults:
       run:
         working-directory: infrastructure/pr-module
@@ -34,6 +34,7 @@ jobs:
         python-version: '3.8'
 
     - run: python --version
+  
     - name: "Terraform Init"
       uses: hashicorp/terraform-github-actions@master
       with:

@@ -16,7 +16,7 @@ on:
 jobs:
   create-infra:
     name: Setup Infrastructure
-    runs-on: ubuntu_latest
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: infrastructure/pr-module

@@ -25,6 +25,8 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: eu-central-1
     steps:
+    - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+
     - name: "Checkout"
       uses: actions/checkout@v2
 
@@ -33,7 +35,7 @@ jobs:
       with:
         python-version: '3.8'
 
-    - run: python --version
+    - run: ls
   
     - name: "Terraform Init"
       uses: hashicorp/terraform-github-actions@master

@@ -2,6 +2,7 @@ name: Create Test Environment
 
 on:
   pull_request:
+    types: [assigned, opened, edited, synchronize, reopened]
     branches:
       - master
       - dev

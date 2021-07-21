@@ -106,6 +106,7 @@ resource "aws_s3_bucket_object" "galaxy_png" {
   etag = filemd5("astro_cakeday/static/galaxy.png")
 }
 
+
 resource "aws_s3_bucket_object" "birthday_css" {
   bucket = aws_s3_bucket.site_bucket.id
   key    = "styles/birthday.css"

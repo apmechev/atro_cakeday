@@ -6,9 +6,8 @@ terraform {
      region                  = "eu-central-1"
      key                     = "cakedays.tfstate"
      encrypt                 = "true"
-#     shared_credentials_file = "~/.aws/credentials"
-#     profile                 = "ci-glbl-auto"
    }
+
   required_providers {
     archive = {
       source = "hashicorp/archive"

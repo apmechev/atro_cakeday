@@ -27,7 +27,7 @@ resource "aws_s3_bucket" "bakery_bucket" {
   cors_rule {
     allowed_headers = ["*"]
     allowed_methods = ["GET"]
-    allowed_origins = ["https://${var.frontend_bucket_name}", "http://${var.frontend_bucket_name}"]
+    allowed_origins = ["https://${local.frontend_bucket_name}", "http://${local.frontend_bucket_name}"]
     expose_headers  = ["ETag"]
     max_age_seconds = 3000
   }

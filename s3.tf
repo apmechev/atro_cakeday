@@ -46,6 +46,8 @@ resource "aws_s3_bucket" "bakery_bucket" {
   }
 }
 
+######### Policies
+
 resource "aws_s3_bucket_policy" "bakery_bucket_policy" {
   bucket = aws_s3_bucket.bakery_bucket.id
 
@@ -66,12 +68,42 @@ resource "aws_s3_bucket_policy" "bakery_bucket_policy" {
   })
 }
 
+resource "aws_s3_bucket_policy" "site_bucket_policy" {
+  bucket = aws_s3_bucket.site_bucket.id
+
+  policy = jsonencode(
+    {
+      Version = "2012-10-17",
+      Statement = [
+        {
+          Sid       = "PublicReadGetObject",
+          Effect    = "Allow",
+          Principal = "*",
+          Action = [
+            "s3:GetObject"
+          ],
+          Resource = "${aws_s3_bucket.site_bucket.arn}/*"
+        }
+      ]
+  })
+}
+
+################# S3 Objects
+
 resource "aws_s3_bucket_object" "index_html" {
   bucket = aws_s3_bucket.site_bucket.id
   key    = "index.html"
   source = "astro_cakeday/static/index.html"
 
   etag = filemd5("astro_cakeday/static/index.html")
+}
+
+resource "aws_s3_bucket_object" "galaxy_png" {
+  bucket = aws_s3_bucket.site_bucket.id
+  key    = "galaxy.png"
+  source = "astro_cakeday/static/galaxy.png"
+
+  etag = filemd5("astro_cakeday/static/galaxy.png")
 }
 
 resource "aws_s3_bucket_object" "birthday_css" {

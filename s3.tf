@@ -106,6 +106,14 @@ resource "aws_s3_bucket_object" "galaxy_png" {
   etag = filemd5("astro_cakeday/static/galaxy.png")
 }
 
+resource "aws_s3_bucket_object" "cake_cursor_png" {
+  bucket = aws_s3_bucket.site_bucket.id
+  key    = "galaxy.png"
+  source = "astro_cakeday/static/cake_cursor.png"
+
+  etag = filemd5("astro_cakeday/static/cake_cursor.png")
+}
+
 
 resource "aws_s3_bucket_object" "birthday_css" {
   bucket = aws_s3_bucket.site_bucket.id

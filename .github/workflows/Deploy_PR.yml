@@ -1,4 +1,4 @@
-name: Create Test Environment
+name: Apply Terraform Code
 
 on:
   pull_request:

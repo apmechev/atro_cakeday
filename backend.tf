@@ -1,12 +1,12 @@
 terraform {
   required_version = "~>1.0.0"
 
-   backend "s3" {
-     bucket                  = "apmechev-tfm-remote-state"
-     region                  = "eu-central-1"
-     key                     = "cakedays.tfstate"
-     encrypt                 = "true"
-   }
+  backend "s3" {
+    bucket  = "apmechev-tfm-remote-state"
+    region  = "eu-central-1"
+    key     = "cakedays.tfstate"
+    encrypt = "true"
+  }
 
   required_providers {
     archive = {

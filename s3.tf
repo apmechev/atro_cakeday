@@ -89,7 +89,7 @@ resource "aws_s3_bucket_object" "index_html" {
   content_type = "text/html"
   }
 
-resource "aws_s3_bucket_object" "index_html" {
+resource "aws_s3_bucket_object" "error_html" {
   bucket = aws_s3_bucket.site_bucket.id
   key    = "error.html"
   source = "astro_cakeday/static/index.html"

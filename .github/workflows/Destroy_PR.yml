@@ -25,6 +25,7 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+      - run: echo "🤖Destroying  ${{  github.head_ref }}."
 
       - name: "Setup Python 3.8"
         uses: actions/setup-python@v2

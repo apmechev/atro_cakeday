@@ -7,19 +7,10 @@ resource "aws_s3_bucket" "site_bucket" {
     error_document = "error.html"
   }
 
-  cors_rule {
-    allowed_headers = ["*"]
-    allowed_methods = ["PUT", "POST"]
-    allowed_origins = ["https://${var.site_name}", "http://${var.site_name}"]
-    expose_headers  = ["ETag"]
-    max_age_seconds = 3000
-  }
-
   tags = {
     Project = "Cakedays"
     Prefix  = local.prefix
     Branch  = var.branch_name
-
   }
 }
 
@@ -35,7 +26,7 @@ resource "aws_s3_bucket" "bakery_bucket" {
   cors_rule {
     allowed_headers = ["*"]
     allowed_methods = ["GET"]
-    allowed_origins = ["https://${var.site_name}", "http://${var.site_name}"]
+    allowed_origins = ["https://${local.frontend_bucket_name}", "http://${local.frontend_bucket_name}"]
     expose_headers  = ["ETag"]
     max_age_seconds = 3000
   }
@@ -95,8 +86,8 @@ resource "aws_s3_bucket_object" "index_html" {
   key    = "index.html"
   source = "astro_cakeday/static/index.html"
 
-  etag = filemd5("astro_cakeday/static/index.html")
-}
+  content_type = "text/html"
+  }
 
 resource "aws_s3_bucket_object" "galaxy_png" {
   bucket = aws_s3_bucket.site_bucket.id
@@ -108,7 +99,7 @@ resource "aws_s3_bucket_object" "galaxy_png" {
 
 resource "aws_s3_bucket_object" "cake_cursor_png" {
   bucket = aws_s3_bucket.site_bucket.id
-  key    = "galaxy.png"
+  key    = "cake_cursor.png"
   source = "astro_cakeday/static/cake_cursor.png"
 
   etag = filemd5("astro_cakeday/static/cake_cursor.png")

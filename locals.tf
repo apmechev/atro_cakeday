@@ -8,5 +8,5 @@ locals {
   lambda_function_name       = "${local.prefix}cakedays_space_process"
   api_gateway_name           = "${local.prefixed_site_name}_submit_API"
   lambda_execution_role_name = "${local.prefixed_site_name}_submit_lambda_role"
-  api_gateway_stage_name     = "${local.safe_prefixed_site_name}_submit_lambda_stage"
+  api_gateway_stage_name     = "submit_lambda_stage"
 }

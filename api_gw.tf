@@ -6,7 +6,7 @@ resource "aws_apigatewayv2_api" "submit_cake" {
 resource "aws_apigatewayv2_stage" "submit_stage" {
   api_id = aws_apigatewayv2_api.submit_cake.id
 
-  name        = local.api_gateway_stage_name
+  name        = var.branch_name == "master" ? "prod" : var.branch_name
   auto_deploy = true
 
   access_log_settings {

@@ -45,6 +45,8 @@ resource "aws_apigatewayv2_integration" "bake_cake" {
   integration_uri    = module.process_lambda.invoke_arn
   integration_type   = "AWS_PROXY"
   integration_method = "POST"
+
+  depends_on = [module.process_lambda]
 }
 
 resource "aws_lambda_permission" "api_gw" {
@@ -52,6 +54,7 @@ resource "aws_lambda_permission" "api_gw" {
   action        = "lambda:InvokeFunction"
   function_name = module.process_lambda.name
   principal     = "apigateway.amazonaws.com"
-
   source_arn = "${aws_apigatewayv2_api.submit_cake.execution_arn}/*/*"
+
+  depends_on = [module.process_lambda]
 }

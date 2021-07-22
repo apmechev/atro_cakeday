@@ -35,6 +35,8 @@ resource "aws_s3_bucket" "bakery_bucket" {
     Project = "Cakedays"
     Prefix  = local.prefix
   }
+
+  force_destroy = true
 }
 
 ######### Policies

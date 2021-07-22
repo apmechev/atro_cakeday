@@ -3,4 +3,5 @@ locals {
   bakery_bucket_name   = "${local.prefix}${var.bakery_bucket_prefix}-${var.site_name}"
   frontend_bucket_name = "${local.prefix}${var.site_name}"
   lambda_function_name = "${local.prefix}cakedays_space_process"
+  api_gateway_name = "${local.frontend_bucket_name}_submit_API"
 }

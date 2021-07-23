@@ -70,4 +70,9 @@ jobs:
         run: echo $( jq  .api_gateway_uri.value <<< $( terraform output -json )   )
 
       - name: Download Cake
-        run: SITE=$( jq .api_gateway_uri.value <<< $( terraform output -json  )  | sed -e 's/^"//' -e 's/"$//' ) ; echo $SITE;   curl -X POST -d {} $SITE
+        run: |
+          SITE=$( jq .api_gateway_uri.value <<< $( terraform output -json  )  | sed -e 's/^"//' -e 's/"$//' )
+          echo $SITE
+          RES=$(curl -X POST -d {} $SITE)
+          echo $RES
+          if [ $( jq .success <<< $RES | grep success ) != 'true' ]; then echo "Success value is " $( jq .success <<< $RES ); exit 1; fi

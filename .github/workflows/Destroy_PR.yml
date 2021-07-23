@@ -59,4 +59,4 @@ jobs:
         run: terraform destroy -var="branch_name=${{ github.head_ref }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}" -auto-approve
 
       - name: "Delete Workspace"
-        run: terraform workspace delete ${{ github.head_ref }}
+        run: terraform workspace select ${{ github.base_ref }}; terraform workspace delete ${{ github.head_ref }}

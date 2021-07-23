@@ -25,6 +25,12 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
 
+      - name: Get Branch Name
+        run: |
+          if [ -z ${{ github.head_ref }} ];
+             then echo "BRANCH=${{ github.base_ref }}" >> $GITHUB_ENV;
+             else echo "BRANCH=${{ github.head_ref }}" >> $GITHUB_ENV; 
+          fi
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
@@ -54,14 +60,14 @@ jobs:
       
       - name: "Select Workspace"
         run: |
-          if [ -z $( terraform workspace list | grep '${{ github.head_ref }}') ]; then terraform workspace new ${{ github.head_ref }}; fi
-          terraform workspace select ${{ github.head_ref }} 
+          if [ -z $( terraform workspace list | grep '${{ env.BRANCH }}') ]; then terraform workspace new ${{ env.BRANCH }}; fi
+          terraform workspace select ${{ env.BRANCH }} 
   
       - name: "Terraform Plan"
-        run: terraform plan -var="branch_name=${{ github.head_ref }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}"
+        run: terraform plan -var="branch_name=${{ env.BRANCH }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}"
 
       - name: "Terraform Apply"
-        run: terraform apply -var="branch_name=${{ github.head_ref }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}" -auto-approve
+        run: terraform apply -var="branch_name=${{ env.BRANCH }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}" -auto-approve
 
       - name: "Terraform Output"
         run: echo "$( terraform output -json  | jq -c . )" 

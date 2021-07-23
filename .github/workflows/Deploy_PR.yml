@@ -63,7 +63,7 @@ jobs:
         run: terraform apply -var="branch_name=${{ github.head_ref }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}" -auto-approve
 
       - name: "Terraform Output"
-        run: echo "TF_OUTPUT=$( cat <<EOF \" $( terraform output -json ) \"  EOF)" >> $GITHUB_ENV
+        run: echo "TF_OUTPUT=' $( jq -c $( terraform output -json) )' " >> $GITHUB_ENV
 
       - name: "Print Terraform Output"
         run: echo  "${{ env.TF_OUTPUT }}"

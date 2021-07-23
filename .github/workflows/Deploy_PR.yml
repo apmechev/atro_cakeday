@@ -67,7 +67,7 @@ jobs:
         run: echo "TF_OUTPUT=$( terraform output -json  | jq -c . )" >> $GITHUB_ENV
 
       - name: "Print Terraform Output"
-        run: echo $( jq .api_gateway_uri.value  <<< "${{ env.TF_OUTPUT }}" )
+        run: echo $( jq -n .api_gateway_uri.value  <<< "${{ env.TF_OUTPUT }}" )
 
       - name: Download Cake
-        run: curl -X POST -d {} $( jq .api_gateway_uri.value  <<< "${{ env.TF_OUTPUT }}" )
+        run: curl -X POST -d {} $( jq -n .api_gateway_uri.value  <<< "${{ env.TF_OUTPUT }}" )

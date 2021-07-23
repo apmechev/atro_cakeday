@@ -70,4 +70,4 @@ jobs:
         run: echo $( jq  .api_gateway_uri.value <<< $( terraform output -json )   )
 
       - name: Download Cake
-        run: curl -X POST -d {} $( jq .api_gateway_uri.value <<< $( terraform output -json  )   )
+        run: jq .api_gateway_uri.value <<< $( terraform output -json  ) | curl -X POST -d {} 

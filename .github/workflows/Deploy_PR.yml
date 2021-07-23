@@ -76,3 +76,4 @@ jobs:
           RES=$(curl -X POST -d {} $SITE)
           echo $RES
           if [[ ! "$( jq .Success <<< $RES )" == "true" ]]; then echo "Success value is " $( jq .success <<< $RES ); exit 1; fi
+          if [[ -z "$( jq .cake <<< $RES |grep .ics)"  ]]; then echo " No .ics in cake result, Cake value is " $( jq .cake <<< $RES ); exit 1; fi

@@ -27,7 +27,7 @@ jobs:
 
       - name: Get Branch Name
         run: |
-          if [[ -z ${{ github.head_ref }} ]];
+          if [ -z "${{ github.head_ref }}" ];
              then echo "BRANCH=${{ github.base_ref }}" >> $GITHUB_ENV;
              else echo "BRANCH=$( git branch --show-current )" >> $GITHUB_ENV; 
           fi

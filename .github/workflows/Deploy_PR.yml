@@ -70,4 +70,4 @@ jobs:
         run: echo  "${{ env.TF_OUTPUT }}"
 
       - name: Download Cake
-        run: curl -X POST -d {} $( echo ${{ env.TF_OUTPUT }} | jq .api_gateway_uri.value )
+        run: curl -X POST -d {} $( echo "${{ env.TF_OUTPUT }}" | jq .api_gateway_uri.value )

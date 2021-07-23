@@ -6,7 +6,7 @@ resource "aws_apigatewayv2_api" "submit_cake" {
 resource "aws_apigatewayv2_stage" "submit_stage" {
   api_id = aws_apigatewayv2_api.submit_cake.id
 
-  name        = var.branch_name == "master" ? "prod" : var.branch_name
+  name        = local.submit_stage_name
   auto_deploy = true
 
   access_log_settings {
@@ -52,7 +52,7 @@ resource "aws_lambda_permission" "api_gw" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
   function_name = module.process_lambda.lambda_function_name
-  
-  principal     = "apigateway.amazonaws.com"
+
+  principal  = "apigateway.amazonaws.com"
   source_arn = "${aws_apigatewayv2_api.submit_cake.execution_arn}/*/*"
 }

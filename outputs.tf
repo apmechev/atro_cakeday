@@ -1,3 +1,3 @@
-output "api_gateway_PATH"{
-    value = aws_apigatewayv2_route.bake_cake.id
+output "api_gateway_uri" {
+  value = "${aws_apigatewayv2_api.submit_cake.api_endpoint}/${local.submit_stage_name}/bake"
 }

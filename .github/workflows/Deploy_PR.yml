@@ -61,7 +61,7 @@ jobs:
       
       - name: "Select Workspace"
         run: |
-          if [ -z $( terraform workspace list | grep '${{ env.BRANCH }}') ]; then terraform workspace new ${{ env.BRANCH }}; fi
+          if [[ -z $( terraform workspace list | grep ${{ env.BRANCH }} ) ]]; then terraform workspace new ${{ env.BRANCH }}; fi
           terraform workspace select ${{ env.BRANCH }} 
   
       - name: "Terraform Plan"

@@ -35,6 +35,8 @@ resource "aws_s3_bucket" "bakery_bucket" {
     Project = "Cakedays"
     Prefix  = local.prefix
   }
+
+  force_destroy = true
 }
 
 ######### Policies
@@ -87,7 +89,7 @@ resource "aws_s3_bucket_object" "index_html" {
   source = "astro_cakeday/static/index.html"
 
   content_type = "text/html"
-  }
+}
 
 resource "aws_s3_bucket_object" "galaxy_png" {
   bucket = aws_s3_bucket.site_bucket.id

@@ -1,6 +1,6 @@
 module "process_lambda" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "2.4.0"
+  version = "2.7.0"
 
   function_name = local.lambda_function_name
   description   = "The Lambda function that creates the ical files"

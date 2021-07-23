@@ -1,4 +1,4 @@
-name: Create Test Environment
+name: Apply Terraform Code
 
 on:
   pull_request:
@@ -43,6 +43,7 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 1.0.0
+          terraform_wrapper: false
 
       - run: ls
       - run: which python
@@ -61,3 +62,18 @@ jobs:
 
       - name: "Terraform Apply"
         run: terraform apply -var="branch_name=${{ github.head_ref }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}" -auto-approve
+
+      - name: "Terraform Output"
+        run: echo "$( terraform output -json  | jq -c . )" 
+
+      - name: "Print Terraform Output"
+        run: echo $( jq  .api_gateway_uri.value <<< $( terraform output -json )   )
+
+      - name: Download Cake
+        run: |
+          SITE=$( jq .api_gateway_uri.value <<< $( terraform output -json  )  | sed -e 's/^"//' -e 's/"$//' )
+          echo $SITE
+          RES=$(curl -X POST -d {} $SITE)
+          echo $RES
+          if [[ ! "$( jq .Success <<< $RES )" == "true" ]]; then echo "Success value is " $( jq .success <<< $RES ); exit 1; fi
+          if [[ -z "$( jq .cake <<< $RES |grep .ics)"  ]]; then echo " No .ics in cake result, Cake value is " $( jq .cake <<< $RES ); exit 1; fi

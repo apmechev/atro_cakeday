@@ -64,10 +64,10 @@ jobs:
         run: terraform apply -var="branch_name=${{ github.head_ref }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}" -auto-approve
 
       - name: "Terraform Output"
-        run: echo "TF_OUTPUT=$( terraform output -json  | jq -c . )" >> $GITHUB_ENV
+        run: echo "$( terraform output -json  | jq -c . )" 
 
       - name: "Print Terraform Output"
-        run: echo $( jq -n .api_gateway_uri.value  <<< ${{ env.TF_OUTPUT }} )
+        run: echo $( jq  .api_gateway_uri.value  <<< terraform output -json  | jq -c .  )
 
       - name: Download Cake
-        run: curl -X POST -d {} $( jq -n .api_gateway_uri.value  <<< ${{ env.TF_OUTPUT }} )
+        run: curl -X POST -d {} $( jq -n .api_gateway_uri.value  <<< terraform output -json  | jq -c .  )

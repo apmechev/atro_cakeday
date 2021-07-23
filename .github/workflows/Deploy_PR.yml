@@ -63,10 +63,10 @@ jobs:
         run: terraform apply -var="branch_name=${{ github.head_ref }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}" -auto-approve
 
       - name: "Terraform Output"
-        run: echo "TF_OUTPUT=$( terraform output -json )" >> $GITHUB_ENV
+        run: echo "TF_OUTPUT=\"$( terraform output -json )\"" >> $GITHUB_ENV
 
       - name: "Print Terraform Output"
         run: echo  "${{ env.TF_OUTPUT }}"
-        
+
       - name: Download Cake
         run: curl -X POST -d {} https://6q43fjdgg2.execute-api.eu-central-1.amazonaws.com/${{ github.head_ref }}/bake

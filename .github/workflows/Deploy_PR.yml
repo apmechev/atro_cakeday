@@ -44,6 +44,7 @@ jobs:
         with:
           terraform_version: 1.0.0
           terraform_wrapper: false
+
       - run: ls
       - run: which python
       - run: which python3
@@ -63,7 +64,7 @@ jobs:
         run: terraform apply -var="branch_name=${{ github.head_ref }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}" -auto-approve
 
       - name: "Terraform Output"
-        run: echo "TF_OUTPUT=$( terraform output -json  | jq -c -n  )" >> $GITHUB_ENV
+        run: echo "TF_OUTPUT=$( terraform output -json  | jq -c . )" >> $GITHUB_ENV
 
       - name: "Print Terraform Output"
         run: echo  "${{ env.TF_OUTPUT }}"

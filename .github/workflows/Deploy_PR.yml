@@ -75,4 +75,4 @@ jobs:
           echo $SITE
           RES=$(curl -X POST -d {} $SITE)
           echo $RES
-          if [ "$( jq .success <<< $RES | grep success )" != "true" ]; then echo "Success value is " $( jq .success <<< $RES ); exit 1; fi
+          if [[ ! "$( jq .Success <<< $RES )" == "true" ]]; then echo "Success value is " $( jq .success <<< $RES ); exit 1; fi

@@ -39,7 +39,7 @@ def lambda_handler(event, context):
     year = int(data.get("birthyear", 2000))
     start_year = int(data.get("cal_start", 1900))
     cal_end = int(data.get("cal_end", 2200))
-    name = data.get("name", "Your ")
+    name = data.get("name", "Your")
 
     if cal_end > 2200:
         cal_end = 2200

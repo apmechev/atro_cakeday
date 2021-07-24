@@ -94,7 +94,7 @@ data "template_file" "index_file_templated" {
 resource "aws_s3_bucket_object" "index_html" {
   bucket = aws_s3_bucket.site_bucket.id
   key    = "index.html"
-  source = template_file.index_file_templated.rendered
+  source = data.template_file.index_file_templated.rendered
 
   content_type = "text/html"
 }

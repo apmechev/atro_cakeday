@@ -4,5 +4,5 @@ output "api_gateway_uri" {
 
 
 output "s3_website_url" {
-  value = aws_s3_bucket.site_bucket.website_domain
+  value = aws_s3_bucket.site_bucket.website_endpoint
 }

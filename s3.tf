@@ -83,10 +83,18 @@ resource "aws_s3_bucket_policy" "site_bucket_policy" {
 
 ################# S3 Objects
 
+
+data "template_file" "index_file_templated" {
+  template = "${file("${path.module}/astro_cakeday/static/index.html")}"
+  vars = {
+    api_gateway_URL = "${aws_apigatewayv2_api.submit_cake.api_endpoint}/${local.submit_stage_name}/bake"
+  }
+}
+
 resource "aws_s3_bucket_object" "index_html" {
   bucket = aws_s3_bucket.site_bucket.id
   key    = "index.html"
-  source = "astro_cakeday/static/index.html"
+  source = template_file.index_file_templated.rendered
 
   content_type = "text/html"
 }

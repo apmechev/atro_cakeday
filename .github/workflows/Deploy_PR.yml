@@ -28,7 +28,7 @@ jobs:
       - name: Get Branch Name
         run: |
           if [ ! -z "${{ github.head_ref }}" ];
-             then echo "BRANCH=${{ github.base_ref }}" >> $GITHUB_ENV; echo "Running inside PR from branch ${{ github.base_ref }}"; 
+             then echo "BRANCH=${{ github.head_ref }}" >> $GITHUB_ENV; echo "Running inside PR from branch ${{ github.head_ref }}"; 
              else echo "BRANCH=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV; echo "Running inside branch $(echo ${GITHUB_REF#refs/heads/})"
           fi
           echo

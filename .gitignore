@@ -119,3 +119,7 @@ venv.bak/
 *.tfstate*
 builds/
 terraform.tfvars
+
+# React
+astro_cakeday/node_modules/*
+astro_cakeday/build/*

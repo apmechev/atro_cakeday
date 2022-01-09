@@ -1,0 +1,103 @@
+* {
+    margin: 4px;
+    border: none;
+    font-family: Arial, sans-serif;
+
+}
+
+body {
+    font-size: 15px;
+    background-color: black;
+    color: #EEE;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-image: url('./static/galaxy.png');
+    background-repeat: no-repeat;
+    background-position: absolute;
+    background-size: cover;
+}
+
+img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.4;
+    z-index: -99;
+}
+
+img.cake {
+    position: absolute;
+    top: -50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+    opacity: 0.8;
+    z-index: -99;
+}
+
+h1 {
+    color: white;
+    font-size: 3vw;
+
+}
+
+h4 {
+    color: white;
+}
+
+div.border {
+    border-style: solid;
+    border-width: 3px;
+    border-radius: 10px;
+    background-color: #b0b0b099;
+    border-color: #fff6;
+}
+
+.active {
+    color: white;
+}
+
+.validate {
+    border: 2px solid #456879;
+    border-radius: 10px;
+    height: 22px;
+    width: 70px;
+
+}
+
+.validate_name {
+    border: 2px solid #456879;
+    border-radius: 10px;
+    height: 22px;
+    width: 170px;
+
+}
+
+.submit {
+    border: 2px solid #456879;
+    border-radius: 10px;
+    height: 32px;
+    width: 100px;
+    cursor: url("cake_cursor.png"), auto;
+}
+
+
+.footer {
+    position: relative;
+    clear: both;
+    width: 85%;
+    color: white;
+    text-align: center;
+    background-color: #b0b0b099;
+    border-radius: 15px;
+}
+
+.footer-result {
+    position: relative;
+    clear: both;
+    width: 85%;
+    color: white;
+    text-align: center;
+}

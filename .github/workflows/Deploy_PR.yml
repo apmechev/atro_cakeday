@@ -41,7 +41,17 @@ jobs:
       - name: "Setup Python 3.8"
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8'
+          python-version: "3.8"
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+      - name: npm install and npm build
+        run: |
+          cd astro_cakeday
+          npm install
+          npm run build
 
       - name: "Test S3"
         run: aws s3 ls s3://apmechev-tfm-remote-state
@@ -58,12 +68,12 @@ jobs:
 
       - name: "Terraform Init"
         run: terraform init
-      
+
       - name: "Select Workspace"
         run: |
           if [[ -z $( terraform workspace list | grep ${{ env.BRANCH }} ) ]]; then terraform workspace new ${{ env.BRANCH }}; fi
-          terraform workspace select ${{ env.BRANCH }} 
-  
+          terraform workspace select ${{ env.BRANCH }}
+
       - name: "Terraform Plan"
         run: terraform plan -var="branch_name=${{ env.BRANCH }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}"
 
@@ -71,7 +81,7 @@ jobs:
         run: terraform apply -var="branch_name=${{ env.BRANCH }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}" -auto-approve
 
       - name: "Terraform Output"
-        run: echo "$( terraform output -json  | jq -c . )" 
+        run: echo "$( terraform output -json  | jq -c . )"
 
       - name: "Print Terraform Output"
         run: echo $( jq  .api_gateway_uri.value <<< $( terraform output -json )   )

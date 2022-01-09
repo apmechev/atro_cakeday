@@ -20,8 +20,9 @@ function App() {
     e.preventDefault();
     console.log("submitting");
     console.log(formData);
-    axios.post('https://reqres.in/api/articles', formData)
-        .then(response => updateIcalURL(response.body.cake));
+    /* eslint-disable no-template-curly-in-string*/
+    axios.post("${api_gateway_URL}", formData)
+        .then(response => updateIcalURL(response.body.cake)); 
     console.log(icalURL);
   }
 

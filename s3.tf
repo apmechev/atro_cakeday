@@ -85,7 +85,7 @@ resource "aws_s3_bucket_policy" "site_bucket_policy" {
 
 
 data "template_file" "index_file_templated" {
-  template = "${file("${path.module}/astro_cakeday/static/index.html")}"
+  template = "${file("${path.module}/astro_cakeday/build/index.html")}"
   vars = {
     api_gateway_URL = "${aws_apigatewayv2_api.submit_cake.api_endpoint}/${local.submit_stage_name}/bake"
   }
@@ -99,27 +99,7 @@ resource "aws_s3_bucket_object" "index_html" {
   content_type = "text/html"
 }
 
-resource "aws_s3_bucket_object" "galaxy_png" {
-  bucket = aws_s3_bucket.site_bucket.id
-  key    = "galaxy.png"
-  source = "astro_cakeday/static/galaxy.png"
-
-  etag = filemd5("astro_cakeday/static/galaxy.png")
-}
-
-resource "aws_s3_bucket_object" "cake_cursor_png" {
-  bucket = aws_s3_bucket.site_bucket.id
-  key    = "cake_cursor.png"
-  source = "astro_cakeday/static/cake_cursor.png"
-
-  etag = filemd5("astro_cakeday/static/cake_cursor.png")
-}
 
 
-resource "aws_s3_bucket_object" "birthday_css" {
-  bucket = aws_s3_bucket.site_bucket.id
-  key    = "styles/birthday.css"
-  source = "astro_cakeday/static/styles/birthday.css"
 
-  etag = filemd5("astro_cakeday/static/styles/birthday.css")
-}
+

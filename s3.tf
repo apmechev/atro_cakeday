@@ -84,21 +84,70 @@ resource "aws_s3_bucket_policy" "site_bucket_policy" {
 ################# S3 Objects
 
 
-data "template_file" "index_file_templated" {
-  template = "${file("${path.module}/astro_cakeday/build/index.html")}"
+data "template_file" "env_file_templated" {
+  template = file("${path.module}/astro_cakeday/src/.env")
   vars = {
     api_gateway_URL = "${aws_apigatewayv2_api.submit_cake.api_endpoint}/${local.submit_stage_name}/bake"
   }
 }
 
 resource "aws_s3_bucket_object" "index_html" {
-  bucket = aws_s3_bucket.site_bucket.id
-  key    = "index.html"
-  content = data.template_file.index_file_templated.rendered
+  bucket  = aws_s3_bucket.site_bucket.id
+  key     = "index.html"
+  content = file("${path.module}/astro_cakeday/build/index.html")
 
   content_type = "text/html"
+  etag         = md5(file("${path.module}/astro_cakeday/build/index.html"))
+}
+resource "aws_s3_bucket_object" "env_file" {
+  bucket  = aws_s3_bucket.site_bucket.id
+  key     = ".env"
+  content = data.template_file.env_file_templated.rendered
+
+  content_type = "text"
+  etag         = md5(file("${path.module}/astro_cakeday/src/.env"))
 }
 
+resource "aws_s3_bucket_object" "manifest_json" {
+  bucket  = aws_s3_bucket.site_bucket.id
+  key     = "manifest.json"
+  content = file("${path.module}/astro_cakeday/build/manifest.json")
+
+  content_type = "application/json"
+  etag         = md5(file("${path.module}/astro_cakeday/build/manifest.json"))
+}
+
+resource "aws_s3_bucket_object" "asset_manifest_json" {
+  bucket  = aws_s3_bucket.site_bucket.id
+  key     = "asset-manifest.json"
+  content = file("${path.module}/astro_cakeday/build/asset-manifest.json")
+
+  content_type = "application/json"
+  etag         = md5(file("${path.module}/astro_cakeday/build/asset-manifest.json"))
+}
+resource "aws_s3_bucket_object" "static_css" {
+  for_each = fileset("${path.module}/astro_cakeday/build/static/css/", "*")
+
+  bucket = aws_s3_bucket.site_bucket.id
+  key    = "static/css/${each.value}"
+  source = "${path.module}/astro_cakeday/build/static/css/${each.value}"
+}
+
+resource "aws_s3_bucket_object" "static_js" {
+  for_each = fileset("${path.module}/astro_cakeday/build/static/js/", "*")
+
+  bucket = aws_s3_bucket.site_bucket.id
+  key    = "static/js/${each.value}"
+  source = "${path.module}/astro_cakeday/build/static/js/${each.value}"
+}
+
+resource "aws_s3_bucket_object" "static_media" {
+  for_each = fileset("${path.module}/astro_cakeday/build/static/media/", "*")
+
+  bucket = aws_s3_bucket.site_bucket.id
+  key    = "static/media/${each.value}"
+  source = "${path.module}/astro_cakeday/build/static/media/${each.value}"
+}
 
 
 

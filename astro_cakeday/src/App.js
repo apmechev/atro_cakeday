@@ -13,15 +13,14 @@ function App() {
     'cal_start': 2019,
     'cal_end': 2100
   });
-
+  const { API_GATEWAY_URL } = process.env;
   const [icalURL, updateIcalURL] = useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
     console.log("submitting");
     console.log(formData);
-    /* eslint-disable no-template-curly-in-string*/
-    axios.post("${api_gateway_URL}", formData)
+    axios.post(API_GATEWAY_URL, formData)
         .then(response => updateIcalURL(response.body.cake)); 
     console.log(icalURL);
   }

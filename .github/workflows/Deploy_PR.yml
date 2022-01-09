@@ -74,7 +74,7 @@ jobs:
           if [[ -z $( terraform workspace list | grep ${{ env.BRANCH }} ) ]]; then terraform workspace new ${{ env.BRANCH }}; fi
           terraform workspace select ${{ env.BRANCH }}
 
-      - run: ls astro_cakeday/build
+      - run: ls astro_cakeday/
       - name: "Terraform Plan"
         run: terraform plan -var="branch_name=${{ env.BRANCH }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}"
 

@@ -1,6 +1,7 @@
 import './App.css';
 import { useState } from 'react';
 import axios from 'axios';
+require('dotenv').config()
 
 function App() {
   const [formData, updateFormField] = useState({
@@ -13,7 +14,7 @@ function App() {
     'cal_start': 2019,
     'cal_end': 2100
   });
-  const { API_GATEWAY_URL } = process.env;
+  const API_GATEWAY_URL = process.env.REACT_APP_API_GATEWAY_URL;
   const [icalURL, updateIcalURL] = useState('');
 
   function handleSubmit(e) {

@@ -20,6 +20,7 @@ function App() {
     e.preventDefault();
     console.log("submitting");
     console.log(formData);
+    console.log(API_GATEWAY_URL);
     axios.post(API_GATEWAY_URL, formData)
         .then(response => updateIcalURL(response.body.cake)); 
     console.log(icalURL);

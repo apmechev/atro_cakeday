@@ -43,16 +43,6 @@ jobs:
         with:
           python-version: "3.8"
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16.x
-      - name: npm install and npm build
-        run: |
-          cd astro_cakeday
-          npm install
-          npm run build
-
       - name: "Test S3"
         run: aws s3 ls s3://apmechev-tfm-remote-state
 
@@ -85,7 +75,23 @@ jobs:
         run: echo "$( terraform output -json  | jq -c . )"
 
       - name: "Print Terraform Output"
-        run: echo $( jq  .api_gateway_uri.value <<< $( terraform output -json )   )
+        run: echo $( terraform output -json )
+
+      - name: update react-envfile
+        run: sed -i "s#\${api_gateway_URL}#$(jq .api_gateway_uri.value <<< $( terraform output -json ) )#g" astro_cakeday/src/.env
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+      - name: "npm install and npm build"
+        run: |
+          cd astro_cakeday
+          npm install
+          npm run build
+
+      - name: "Upload static files to S3"
+        run: aws s3 sync ./astro_cakeday/build/ s3://$( jq -r .s3_website_bucket.value <<< $( terraform output -json ) )/
 
       - name: Download Cake
         run: |

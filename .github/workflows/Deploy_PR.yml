@@ -78,7 +78,9 @@ jobs:
         run: echo $( terraform output -json )
 
       - name: update react-envfile
-        run: sed -i "s#\${api_gateway_URL}#$(jq -r .api_gateway_uri.value <<< $( terraform output -json ) )#g" astro_cakeday/.env
+        run: |
+          sed -i "s#\${api_gateway_URL}#$(jq -r .api_gateway_uri.value <<< $( terraform output -json ) )#g" astro_cakeday/.env
+          sed -i "s#\${website_URL}#$(jq -r .s3_website_url.value <<< $( terraform output -json ) )#g" astro_cakeday/.env
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1

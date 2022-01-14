@@ -15,6 +15,7 @@ function App() {
     'cal_end': 2100
   });
   const API_GATEWAY_URL = process.env.REACT_APP_API_GATEWAY_URL;
+//  const WEBSITE_URL = process.env.REACT_APP_WEBSITE_URL;
   const [icalURL, updateIcalURL] = useState('');
 
   function handleSubmit(e) {
@@ -22,16 +23,17 @@ function App() {
     console.log("submitting");
     console.log(formData);
     const config = {
+      crossDomain: true,
       headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers" : "Content-Type",
-        "Access-Control-Allow-Methods": "OPTIONS,POST"
+        "Content-Type": "text/plain",
+        "Access-Control-Allow-Origin": true,
       }
     }
     console.log(API_GATEWAY_URL);
     axios.post(API_GATEWAY_URL, formData, config)
-        .then(response => updateIcalURL(response.body.cake)); 
+        .then(response => {
+          updateIcalURL(response.data.cake)}
+          ); 
     console.log(icalURL);
   }
 

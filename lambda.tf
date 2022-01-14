@@ -9,7 +9,8 @@ module "process_lambda" {
 
   environment_variables = {
     "SECRET_KEY" : var.SECRET_KEY,
-    "BAKERY_BUCKET_NAME" : aws_s3_bucket.bakery_bucket.id
+    "BAKERY_BUCKET_NAME" : aws_s3_bucket.bakery_bucket.id,
+    "ALLOW_ORIGIN" : aws_s3_bucket.site_bucket.website_endpoint,
   }
   memory_size = 1024
   source_path = "./lambdas/cakedays_process/"

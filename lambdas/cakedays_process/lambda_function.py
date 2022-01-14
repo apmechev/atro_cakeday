@@ -30,6 +30,17 @@ def unencode_body(event):
 
 def lambda_handler(event, context):
     print(event)
+    if event['httpMethod'] == 'OPTIONS':
+        print("Options Call")
+        return {
+        'statusCode': 200,
+        'headers': json.dumps({
+            "Access-Control-Allow-Origin" : "http://" + os.environ.get("ALLOW_ORIGIN", "*"),
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Allow-Methods': 'OPTIONS,POST',
+        }),
+        'body': json.dumps('OK')
+    }
     data = event
     if 'body' in event.keys():
         data = unencode_body(event)

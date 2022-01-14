@@ -5,7 +5,7 @@ resource "aws_apigatewayv2_api" "submit_cake" {
   cors_configuration {
     allow_origins = ["http://${aws_s3_bucket.site_bucket.website_endpoint}", "https://${aws_s3_bucket.site_bucket.website_endpoint}"]
     allow_methods = ["POST", "OPTIONS"]
-    allow_headers = ["content-type"]
+    allow_headers = ["access-control-allow-origin", "access-control-allow-headers", "content-type"]
     max_age = 300
   }
 }
@@ -55,6 +55,21 @@ resource "aws_apigatewayv2_integration" "bake_cake" {
 
 }
 
+resource "aws_apigatewayv2_route" "bake_cake_OPTIONS" {
+  api_id = aws_apigatewayv2_api.submit_cake.id
+
+  route_key = "OPTIONS /bake"
+  target    = "integrations/${aws_apigatewayv2_integration.bake_cake.id}"
+}
+
+resource "aws_apigatewayv2_integration" "bake_cake_OPTIONS" {
+  api_id = aws_apigatewayv2_api.submit_cake.id
+
+  integration_uri    = module.process_lambda.lambda_function_invoke_arn
+  integration_type   = "AWS_PROXY"
+  integration_method = "POST"
+
+}
 resource "aws_lambda_permission" "api_gw" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"

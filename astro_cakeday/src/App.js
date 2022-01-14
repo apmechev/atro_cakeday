@@ -21,8 +21,16 @@ function App() {
     e.preventDefault();
     console.log("submitting");
     console.log(formData);
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers" : "Content-Type",
+        "Access-Control-Allow-Methods": "OPTIONS,POST"
+      }
+    }
     console.log(API_GATEWAY_URL);
-    axios.post(API_GATEWAY_URL, formData)
+    axios.post(API_GATEWAY_URL, formData, config)
         .then(response => updateIcalURL(response.body.cake)); 
     console.log(icalURL);
   }

@@ -1,4 +1,5 @@
 import './App.css';
+import cake from './static/cake.png';
 import { useState } from 'react';
 import axios from 'axios';
 require('dotenv').config()
@@ -15,13 +16,10 @@ function App() {
     'cal_end': 2100
   });
   const API_GATEWAY_URL = process.env.REACT_APP_API_GATEWAY_URL;
-//  const WEBSITE_URL = process.env.REACT_APP_WEBSITE_URL;
   const [icalURL, updateIcalURL] = useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log("submitting");
-    console.log(formData);
     const config = {
       crossDomain: true,
       headers: {
@@ -29,16 +27,27 @@ function App() {
         "Access-Control-Allow-Origin": true,
       }
     }
-    console.log(API_GATEWAY_URL);
     axios.post(API_GATEWAY_URL, formData, config)
         .then(response => {
           updateIcalURL(response.data.cake)}
           ); 
-    console.log(icalURL);
   }
 
   return(
    <div className="container" >
+      {icalURL ? (
+        <div>
+           <div class="border">
+          <h4>Download this file to your machine:</h4>
+          <h4><a href={`${icalURL}`} download>{`${icalURL}`}</a></h4>
+          <img class='cake' src={cake} alt='cake'/>
+          <br/>
+          <h4>To Add to Google Calendar:</h4>
+          <h4>Paste the above URL into<a href="https://calendar.google.com/calendar/r/settings/addbyurl">this link</a></h4>
+          </div>
+        
+        </div>
+        ) : (<div> 
       <h1>When were you born? (On Earth)</h1>
       <form onSubmit={handleSubmit}>
         <label>Your name (optional)</label>
@@ -68,7 +77,7 @@ function App() {
 
         <br/>
         <button type="submit">Submit</button>
-      </form>
+      </form></div>)}
     </div>)
 }
 

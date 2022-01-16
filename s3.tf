@@ -12,6 +12,8 @@ resource "aws_s3_bucket" "site_bucket" {
     Prefix  = local.prefix
     Branch  = var.branch_name
   }
+
+  force_destroy = true
 }
 
 resource "aws_s3_bucket" "bakery_bucket" {

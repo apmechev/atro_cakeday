@@ -3,7 +3,7 @@ resource "aws_apigatewayv2_api" "submit_cake" {
   protocol_type = "HTTP"
 
   cors_configuration {
-    allow_origins = ["http://${aws_s3_bucket.site_bucket.website_endpoint}", "https://${aws_s3_bucket.site_bucket.website_endpoint}"]
+    allow_origins = ["http://${aws_s3_bucket.site_bucket.website_domain}", "https://${aws_s3_bucket.site_bucket.website_domain}"]
     allow_methods = ["POST", "OPTIONS"]
     allow_headers = ["access-control-allow-origin", "access-control-allow-headers", "content-type"]
     max_age = 300

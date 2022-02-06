@@ -6,7 +6,7 @@ resource "aws_apigatewayv2_api" "submit_cake" {
     allow_origins = ["http://${local.frontend_bucket_name}", "https://${local.frontend_bucket_name}"]
     allow_methods = ["POST", "OPTIONS"]
     allow_headers = ["access-control-allow-origin", "access-control-allow-headers", "content-type"]
-    max_age = 300
+    max_age       = 300
   }
 }
 

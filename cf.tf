@@ -1,6 +1,13 @@
+data "aws_cloudfront_origin_request_policy" "corsS3Origin" {
+  name = "Managed-CORS-S3Origin"
+}
+data "aws_cloudfront_cache_policy" "cachingOptimized" {
+  name = "Managed-CachingOptimized"
+}
+
 resource "aws_cloudfront_distribution" "cakedays_cdn" {
   origin {
-    origin_id   = local.frontend_bucket_name
+    origin_id   = "${local.frontend_bucket_name}-cdn"
     domain_name = "${local.frontend_bucket_name}.s3.amazonaws.com"
   }
 
@@ -13,14 +20,10 @@ resource "aws_cloudfront_distribution" "cakedays_cdn" {
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = local.frontend_bucket_name
-
-    forwarded_values {
-      query_string = true
-      cookies {
-        forward = "none"
-      }
-    }
+    target_origin_id = "${local.frontend_bucket_name}-cdn"
+    
+    cache_policy_id             = data.aws_cloudfront_cache_policy.cachingOptimized.id
+    origin_request_policy_id   = data.aws_cloudfront_origin_request_policy.corsS3Origin.id
 
     viewer_protocol_policy = "allow-all"
     min_ttl                = 0

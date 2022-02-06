@@ -8,8 +8,8 @@ resource "aws_route53_record" "branch" {
   name    = local.frontend_bucket_name
   type    = "A"
   alias {
-      name = aws_s3_bucket.site_bucket.website_domain
-      zone_id = aws_s3_bucket.site_bucket.hosted_zone_id
+      name = "${aws_cloudfront_distribution.cakedays_cdn.domain_name}"
+      zone_id = "${aws_cloudfront_distribution.cakedays_cdn.hosted_zone_id}"
       evaluate_target_health = false
   }
 

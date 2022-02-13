@@ -20,17 +20,12 @@ def unencode_body(event):
         body = event.get('body')
     if event.get("isBase64Encoded"):
         body = base64.b64decode(body).decode("utf-8")
-    body = parse_qs(body)
-    for key in body:
-        if type(body[key]) == list:
-            body[key] = body[key][0]
-    print(f"JSONified Body: {body}")
-    return body
+    return json.loads(body)
+
 
 
 def lambda_handler(event, context):
-    print(event)
-    if event['httpMethod'] == 'OPTIONS':
+    if event['requestContext']['http']['method'] == 'OPTIONS':
         print("Options Call")
         return {
         'statusCode': 200,

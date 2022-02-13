@@ -25,10 +25,11 @@ resource "aws_cloudfront_distribution" "cakedays_cdn" {
     cache_policy_id             = data.aws_cloudfront_cache_policy.cachingOptimized.id
     origin_request_policy_id   = data.aws_cloudfront_origin_request_policy.corsS3Origin.id
 
-    viewer_protocol_policy = "allow-all"
     min_ttl                = 0
     default_ttl            = 3600
     max_ttl                = 86400
+    viewer_protocol_policy = "redirect-to-https"
+
   }
 
   # The cheapest priceclass

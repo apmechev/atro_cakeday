@@ -2,6 +2,7 @@ import './App.css';
 import cake from './static/cake.png';
 import { useState } from 'react';
 import axios from 'axios';
+import MoonLoader from 'react-spinners/MoonLoader';
 require('dotenv').config()
 
 function App() {
@@ -17,9 +18,11 @@ function App() {
   });
   const API_GATEWAY_URL = process.env.REACT_APP_API_GATEWAY_URL;
   const [icalURL, updateIcalURL] = useState('');
+  const [isLoading, updateIsLoading] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
+    updateIsLoading(true);
     const config = {
       crossDomain: true,
       headers: {
@@ -30,7 +33,10 @@ function App() {
     axios.post(API_GATEWAY_URL, formData, config)
         .then(response => {
           updateIcalURL(response.data.cake)}
-          ); 
+          )
+        .finally(() => {
+          updateIsLoading(false);
+        })
   }
 
   return(
@@ -76,7 +82,8 @@ function App() {
         <input type="number" className='validate' value={formData.cal_end} onChange={(e) => updateFormField({...formData, cal_end: e.target.value})} />
 
         <br/>
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={isLoading}>Submit</button>
+        <MoonLoader loading={isLoading} color="#FFFFFF" size={20}/>
       </form></div>)}
     </div>)
 }

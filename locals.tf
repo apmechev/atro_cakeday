@@ -4,7 +4,7 @@ locals {
   safe_prefixed_site_name = replace(local.prefixed_site_name, "/\\W|-.|\\s/", "_")                                       # Has no periods or dashes
 
   submit_stage_name          = var.branch_name == "master" ? "prod" : var.branch_name
-  bakery_bucket_name         = "${local.prefix}${var.bakery_bucket_prefix}-${var.site_name}"
+  bakery_bucket_name         = "${local.prefix}${var.bakery_bucket_prefix}.${var.site_name}"
   frontend_bucket_name       = local.prefixed_site_name
   lambda_function_name       = "${local.safe_prefixed_site_name}cakedays_space_process"
   api_gateway_name           = "${local.prefixed_site_name}_submit_API"

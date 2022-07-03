@@ -1,0 +1,105 @@
+name: Apply Terraform Code
+
+on:
+  pull_request:
+    types: [assigned, opened, edited, synchronize, reopened]
+    branches:
+      - master
+      - dev
+      - uat
+  push:
+    branches:
+      - master
+      - dev
+      - uat
+
+jobs:
+  create-infra:
+    name: Setup Infrastructure
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: eu-central-1
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Get Branch Name
+        run: |
+          if [ ! -z "${{ github.head_ref }}" ];
+             then echo "BRANCH=${{ github.head_ref }}" >> $GITHUB_ENV; echo "Running inside PR from branch ${{ github.head_ref }}"; 
+             else echo "BRANCH=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV; echo "Running inside branch $(echo ${GITHUB_REF#refs/heads/})"
+          fi
+          echo
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - run: echo "🤖Deploying to ${{ env.BRANCH }}."
+
+      - name: "Setup Python 3.8"
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+
+      - name: "Test S3"
+        run: aws s3 ls s3://apmechev-tfm-remote-state
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.0
+          terraform_wrapper: false
+
+      - run: ls
+      - run: which python
+      - run: which python3
+
+      - name: "Terraform Init"
+        run: terraform init
+
+      - name: "Select Workspace"
+        run: |
+          if [[ -z $( terraform workspace list | grep ${{ env.BRANCH }} ) ]]; then terraform workspace new ${{ env.BRANCH }}; fi
+          terraform workspace select ${{ env.BRANCH }}
+
+      - run: ls astro_cakeday/
+      - name: "Terraform Plan"
+        run: terraform plan -var="branch_name=${{ env.BRANCH }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}"
+
+      - name: "Terraform Apply"
+        run: terraform apply -var="branch_name=${{ env.BRANCH }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}" -auto-approve
+
+      - name: "Terraform Output"
+        run: echo "$( terraform output -json  | jq -c . )"
+
+      - name: "Print Terraform Output"
+        run: echo $( terraform output -json )
+
+      - name: update react-envfile
+        run: |
+          sed -i "s#\${api_gateway_URL}#$(jq -r .api_gateway_uri.value <<< $( terraform output -json ) )#g" astro_cakeday/.env
+          sed -i "s#\${website_URL}#$(jq -r .s3_website_url.value <<< $( terraform output -json ) )#g" astro_cakeday/.env
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+      - name: "npm install and npm build"
+        run: |
+          cd astro_cakeday
+          npm install
+          npm run build
+
+      - name: "Upload static files to S3"
+        run: aws s3 sync ./astro_cakeday/build/ s3://$( jq -r .s3_website_bucket.value <<< $( terraform output -json ) )/
+
+      - name: Download Cake
+        run: |
+          SITE=$( jq .api_gateway_uri.value <<< $( terraform output -json  )  | sed -e 's/^"//' -e 's/"$//' )
+          echo $SITE
+          RES=$(curl -X POST -d {} $SITE)
+          echo $RES
+          if [[ ! "$( jq .Success <<< $RES )" == "true" ]]; then echo "Success value is " $( jq .success <<< $RES ); exit 1; fi
+          if [[ -z "$( jq .cake <<< $RES |grep .ics)"  ]]; then echo " No .ics in cake result, Cake value is " $( jq .cake <<< $RES ); exit 1; fi

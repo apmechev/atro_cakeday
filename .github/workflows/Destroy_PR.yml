@@ -1,0 +1,62 @@
+name: Destroy Terraform Code
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - master
+      - dev
+      - uat
+
+
+jobs:
+  create-infra:
+    name: Destroy Infrastructure
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: eu-central-1
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - run: echo "🤖Destroying  ${{  github.head_ref }}."
+
+      - name: "Setup Python 3.8"
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: "Test S3"
+        run: aws s3 ls s3://apmechev-tfm-remote-state
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.0
+
+      - run: ls
+      - run: which python
+      - run: which python3
+
+      - name: "Terraform Init"
+        run: terraform init
+      
+      - name: "Select Workspace"
+        run: |
+          if [ -z $( terraform workspace list | grep '${{ github.head_ref }}') ]; then terraform workspace new ${{ github.head_ref }}; fi
+          terraform workspace select ${{ github.head_ref }} 
+  
+      - name: "Terraform Plan"
+        run: terraform plan -var="branch_name=${{ github.head_ref }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}"
+
+      - name: "Terraform Destroy"
+        run: terraform destroy -var="branch_name=${{ github.head_ref }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}" -auto-approve
+
+      - name: "Delete Workspace"
+        run: terraform workspace select ${{ github.base_ref }}; terraform workspace delete ${{ github.head_ref }}

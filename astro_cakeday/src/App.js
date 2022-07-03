@@ -44,8 +44,8 @@ function App() {
       {icalURL ? (
         <div>
            <div class="border">
-          <h4>Download this file to your machine:</h4>
-          <h4><a href={`${icalURL}`} download='calendar.ical'>{`${icalURL}`}</a></h4>
+          <h4>Download this file to your machine (right-click+ 'Save As'):</h4>
+          <h4><a href={`${icalURL}`} download>{`${icalURL}`}</a></h4>
           <img class='cake' src={cake} alt='cake'/>
           <br/>
           <h4>To Add to Google Calendar:</h4>
@@ -84,7 +84,11 @@ function App() {
         <br/>
         <button type="submit" disabled={isLoading}>Submit</button>
         <MoonLoader loading={isLoading} color="#FFFFFF" size={20}/>
-      </form></div>)}
+      </form>
+        <div class="footer active">
+          <p><b>Made in a hack session at <a href="http://openastronomy.org/pyastro/2019/">Python in Astronomy 2019.</a></b></p>
+        </div>
+      </div>)}
     </div>)
 }
 

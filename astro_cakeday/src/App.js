@@ -44,7 +44,7 @@ function App() {
       {icalURL ? (
         <div>
            <div class="border">
-          <h4>Download this file to your machine (right-click+ 'Save As'):</h4>
+          <h4>Download this file to your machine:</h4>
           <h4><a href={`${icalURL}`} download>{`${icalURL}`}</a></h4>
           <img class='cake' src={cake} alt='cake'/>
           <br/>

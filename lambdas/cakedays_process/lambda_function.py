@@ -82,5 +82,5 @@ def lambda_handler(event, context):
     return {
         'statusCode': 200,
         'body': json.dumps({"Success": True,
-                            "cake": f"http://{bucket_name}.s3-website.eu-central-1.amazonaws.com/{s3_key}"})
+                            "cake": f"https://s3-eu-central-1.amazonaws.com/{bucket_name}/{s3_key}"})
     }

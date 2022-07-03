@@ -45,7 +45,7 @@ function App() {
         <div>
            <div class="border">
           <h4>Download this file to your machine:</h4>
-          <h4><a href={`${icalURL}`} download>{`${icalURL}`}</a></h4>
+          <h4><a href={`${icalURL}`} download={icalURL}>{`${icalURL}`}</a></h4>
           <img class='cake' src={cake} alt='cake'/>
           <br/>
           <h4>To Add to Google Calendar:</h4>

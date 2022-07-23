@@ -49,7 +49,7 @@ jobs:
       
       - name: "Select Workspace"
         run: |
-          if [ -z $( terraform workspace list | grep '${{ github.head_ref }}') ]; then terraform workspace new ${{ github.head_ref }}; fi
+          if [ -z $( terraform workspace list | grep $(echo ${{ github.head_ref }}| awk -F/ '{print $NF}')) ]; then terraform workspace new ${{ github.head_ref }}; fi
           terraform workspace select ${{ github.head_ref }} 
   
       - name: "Terraform Plan"

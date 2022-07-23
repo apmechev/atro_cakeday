@@ -47,16 +47,23 @@ jobs:
       - name: "Terraform Init"
         run: terraform init
       
+      - name: Get Branch Name
+        run: |
+          if [ ! -z "${{ github.head_ref }}" ];
+             then echo "BRANCH=$(echo ${{ github.head_ref }}| awk -F/ '{print $NF}')" >> $GITHUB_ENV; echo "Running inside PR from branch ${{ github.head_ref }}"; 
+             else echo "BRANCH=$(echo ${GITHUB_REF#refs/heads/}| awk -F/ '{print $NF}')" >> $GITHUB_ENV; echo "Running inside branch $(echo ${GITHUB_REF#refs/heads/})"
+          fi
+          echo
       - name: "Select Workspace"
         run: |
-          if [ -z $( terraform workspace list | grep $(echo ${{ github.head_ref }}| awk -F/ '{print $NF}')) ]; then terraform workspace new ${{ github.head_ref }}; fi
-          terraform workspace select ${{ github.head_ref }} 
+          if [ -z $( terraform workspace list | grep ${{ env.BRANCH }} ) ]; then terraform workspace new ${{ env.BRANCH }}; fi
+          terraform workspace select ${{ env.BRANCH }}
   
       - name: "Terraform Plan"
-        run: terraform plan -var="branch_name=${{ github.head_ref }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}"
+        run: terraform plan -var="branch_name=${{ env.BRANCH }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}"
 
       - name: "Terraform Destroy"
-        run: terraform destroy -var="branch_name=${{ github.head_ref }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}" -auto-approve
+        run: terraform destroy -var="branch_name=${{ env.BRANCH }}" -var="SECRET_KEY=${{ secrets.CAKEDAYS_SECRET_KEY }}" -auto-approve
 
       - name: "Delete Workspace"
-        run: terraform workspace select ${{ github.base_ref }}; terraform workspace delete ${{ github.head_ref }}
+        run: terraform workspace select ${{ env.BRANCH }}; terraform workspace delete ${{ env.BRANCH }}

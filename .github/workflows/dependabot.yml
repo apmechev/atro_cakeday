@@ -1,10 +1,6 @@
-name: Dependabot workflow
-
-on: pull_request_target
-
-permissions:
-  pull-requests: write
-  contents: write
+on:
+  pull_request:
+    types: [assigned, opened, edited, synchronize, reopened]
 
 jobs:
   dependabotAlerts:
@@ -38,7 +34,6 @@ jobs:
           sleep 60
 
       - name: Label Security PRs
-        uses: actions/checkout@v2
         uses: actions-ecosystem/action-add-labels@v1.1.0
         if: ${{ (steps.dependabot-metadata.outputs.cvss != 0 ) }}
         env:
@@ -51,6 +46,4 @@ jobs:
         run: gh pr review --approve "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-# Adapted from https://blog.somewhatabstract.com/2021/10/11/setting-up-dependabot-with-github-actions-to-approve-and-merge/
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}           

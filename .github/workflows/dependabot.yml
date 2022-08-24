@@ -1,0 +1,56 @@
+name: Dependabot workflow
+
+on: pull_request_target
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  dependabotAlerts:
+    name: Check for Dependabot Alerts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Dependabot Alerts
+        id: alerts
+        uses: spicyparrot/check-dependabot@v1.2.0
+        with:
+          github_personal_token: ${{ secrets.GITHUB_TOKEN }}
+
+  dependabot:
+    name: Pull Request Approve and Merge
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      # Fetch Metadata from Dependabot PRs
+      # https://github.com/marketplace/actions/fetch-metadata-from-dependabot-prs
+      - name: Dependabot metadata
+        id: dependabot-metadata
+        uses: dependabot/fetch-metadata@v1.3.3
+        with:
+          alert-lookup: true
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Sleep for Terraform
+        run: |
+          sleep 60
+
+      - name: Label Security PRs
+        uses: actions/checkout@v2
+        uses: actions-ecosystem/action-add-labels@v1.1.0
+        if: ${{ (steps.dependabot-metadata.outputs.cvss != 0 ) }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          label: security
+
+      - name: Approve Patch or Security Pull Request
+        if: ${{ (steps.dependabot-metadata.outputs.update-type == 'version-update:semver-patch') ||
+          (steps.dependabot-metadata.outputs.cvss != 0 ) }}
+        run: gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+# Adapted from https://blog.somewhatabstract.com/2021/10/11/setting-up-dependabot-with-github-actions-to-approve-and-merge/
